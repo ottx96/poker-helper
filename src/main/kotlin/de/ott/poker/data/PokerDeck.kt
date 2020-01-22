@@ -4,14 +4,25 @@ import java.util.*
 
 object PokerDeck {
 
-    val CARDS by lazy {
+    private var _DECK = createDeck()
+    val DECK = _DECK
+
+    fun reset() {
+        _DECK = createDeck()
+    }
+
+
+    private fun createDeck(): LinkedList<PokerCard> {
         val res = LinkedList<PokerCard>()
 
         for(number in 1..13)
             for(color in 0..3)
-                res.add( PokerCard(Numbers.byId(number), Colors.byId(color)) )
+                res.add( PokerCard(Numbers.byId(number), Colors.byId(color), PokerCardInformation()) )
 
-        return@lazy res
+        return res
     }
+
+    fun getCardbyAttributes(color: Colors, number: Numbers) =
+        DECK.first { it.color == color && it.number == number }
 
 }

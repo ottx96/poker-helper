@@ -6,6 +6,9 @@ enum class Colors(val id: Int, val desc: String) {
     companion object {
         fun byId(id: Int): Colors =
             Colors.values().first { it.id == id }
+
+        fun byName(name: String) =
+            Colors.values().first { it.desc.compareTo(name, true) == 0 }
     }
 
     override fun toString(): String {
@@ -23,6 +26,12 @@ enum class Numbers(val id: Int, val desc: String = id.toString()) {
     companion object {
         fun byId(id: Int) =
             Numbers.values().first { it.id == id }
+
+        fun byName(name: String) =
+            Numbers.values().first { it.desc.startsWith(name) }
+
+        fun byName(name: Int) =
+            Numbers.values().first { it.desc.compareTo(name.toString(), true) == 0 }
     }
 
     override fun toString(): String {
