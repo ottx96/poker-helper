@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
+import javafx.stage.Screen
 import javafx.stage.Stage
 
 data class CardChooserDialogResult(val image: ImageView, val card: PokerCard)
@@ -25,6 +26,11 @@ class CardChooserDialog : View("Kartenwahl") {
 
         fun showDialog(): CardChooserDialogResult {
             Stage().apply {
+
+//                val scr = Screen.getPrimary().bounds
+   //             width = scr.width
+     //           height = scr.height
+                isMaximized = true
                 scene = Scene(CardChooserDialog().root)
             }.showAndWait()
             return CardChooserDialogResult(
@@ -36,9 +42,6 @@ class CardChooserDialog : View("Kartenwahl") {
 
     override val root = vbox(20) {
         val vb = this
-
-        prefHeight = Double.MAX_VALUE
-        prefWidth = Double.MAX_VALUE
 
         hbox(10) {
             val hbox = this
