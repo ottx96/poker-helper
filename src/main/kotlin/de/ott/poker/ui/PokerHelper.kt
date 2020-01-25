@@ -212,6 +212,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         prefHeightProperty().bind(vb!!.heightProperty())
                                                         action {
                                                                 Stage().apply {
+                                                                        isMaximized = true
                                                                         scene = Scene(DetailForm().root)
                                                                 }.show()
                                                         }
