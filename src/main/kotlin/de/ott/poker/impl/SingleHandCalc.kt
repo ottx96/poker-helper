@@ -1,4 +1,4 @@
-package de.ott.poker.data.calc
+package de.ott.poker.impl
 
 import de.ott.poker.data.Colors
 import de.ott.poker.data.Numbers
@@ -25,6 +25,9 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
         allCards.add(first)
         allCards.add(second)
         allCards.addAll(tableCards)
+
+        println("--SingleHandCalc--")
+        allCards.forEach(::println)
     }
 
     fun getHighest(): String{
@@ -53,14 +56,13 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     fun twoPair(): Boolean {
-        allCards.forEach { cCard ->
-            var count = 0
-            allCards.filter { it != cCard }.forEach {
-                if (cCard.number == it.number) count++
-                if(count >= 2) return true
+        var count = 0
+        allCards.forEach{ c1 ->
+            allCards.filter { c1 != it}.forEach {
+                if(c1.number == it.number) count++
             }
         }
-        return false
+        return count >= 2
     }
 
     fun threeOfAKind(): Boolean {
@@ -75,18 +77,21 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     fun straight(): Boolean {
-        try{
-            val sorted = allCards.sortedBy { it.number.id }
-            for(i in 0..2){
-                for(j in i..i+4){
-                    if(sorted[j].number.id != sorted[j+1].number.id) break
-                    else if(j == i+4) return true
-                }
-            }
-            return false
-        }catch(e: Exception){
-            return false
+        if(allCards.size < 5) return false
+        val sorted = allCards.sortedBy { it.number.id }
+        sorted.forEach(::println)
+        for(offset in 0..sorted.size - 5){
+           println("Offset: $offset")
+           var straight = true
+           for(i in 1..5){
+               if(sorted[i+offset].number.id - 1 != sorted[i-1+offset].number.id){
+                   straight = false
+                   break
+               }
+               if(straight) return true
+           }
         }
+        return false
     }
 
     fun flush(): Boolean {
@@ -122,7 +127,21 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     fun straightFlush(): Boolean {
-        return flush() && straight()
+        if(allCards.size < 5) return false
+        val sorted = allCards.sortedBy { it.number.id }
+        sorted.forEach(::println)
+        for(offset in 0..sorted.size - 5){
+            println("Offset: $offset")
+            var straight_flush = true
+            for(i in 1..6){
+                if(sorted[i+offset].number.id - 1 != sorted[i-1+offset].number.id || sorted[i+offset].color != sorted[i-1+offset].color){
+                    straight_flush = false
+                    break
+                }
+                if(straight_flush) return true
+            }
+        }
+        return false
     }
 
     override fun toString(): String {

@@ -1,7 +1,7 @@
 package de.ott.poker.ui
 
 import de.ott.poker.data.PokerCard
-import de.ott.poker.data.calc.SingleHandCalc
+import de.ott.poker.impl.SingleHandCalc
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -38,7 +38,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                         spacingProperty().bind(vb.widthProperty().divide(10 * 4))
                         alignment = Pos.CENTER_LEFT
                         val hbox = this
-                        prefHeightProperty().bind(vb.heightProperty().divide(1.45))
+                        prefHeightProperty().bind(vb.heightProperty().divide(1.7))
 
                         //Stapel
                         pane{
@@ -46,7 +46,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         image = Image("de.ott.poker.cards/red_back.png")
 
                                         isPreserveRatio = true
-                                        fitWidthProperty().bind(vb.widthProperty().divide(7.6))
+                                        fitWidthProperty().bind(vb.widthProperty().divide(7))
                                         fitHeightProperty().bind(hbox.heightProperty())
 
                                         onMouseEntered = EventHandler {
@@ -62,7 +62,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                         tableCards.add( card to image )
                                                                         add(image.apply {
                                                                                 fitHeightProperty().bind(hbox.heightProperty())
-                                                                                fitWidthProperty().bind(hbox.widthProperty() / 7.6)
+                                                                                fitWidthProperty().bind(hbox.widthProperty() / 7)
                                                                         })
                                                                 }
                                                         }
@@ -73,7 +73,7 @@ class PokerHelper: View("Poker Helper by Ott") {
 
                         /// Platz nach rechts
                         label {
-                                prefWidthProperty().bind(vb.widthProperty().divide(17))
+                                prefWidthProperty().bind(vb.widthProperty().divide(28))
                         }
                 }
                 hbox(30) {
@@ -187,7 +187,10 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                 action {
                                                                         lbl.apply {
                                                                                 firstCard?:secondCard?:return@apply
-                                                                                text = SingleHandCalc(firstCard!!, secondCard!!, tableCards.mapEach { first }).getHighest()
+                                                                                text = SingleHandCalc(
+                                                                                        firstCard!!,
+                                                                                        secondCard!!,
+                                                                                        tableCards.mapEach { first }).getHighest()
                                                                         }
                                                                 }
                                                         }
