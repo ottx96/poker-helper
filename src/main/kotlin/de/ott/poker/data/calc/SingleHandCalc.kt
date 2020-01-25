@@ -9,6 +9,18 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
 
     val allCards = LinkedList<PokerCard>()
 
+    val ORDER = mapOf(
+        ::pair to 1,
+        ::twoPair to 2,
+        ::threeOfAKind to 3,
+        ::straight to 4,
+        ::flush to 5,
+        ::fullHouse to 6,
+        ::fourOfAKind to 7,
+        ::straightFlush to 8
+    )
+
+
     init {
         allCards.add(first)
         allCards.add(second)
