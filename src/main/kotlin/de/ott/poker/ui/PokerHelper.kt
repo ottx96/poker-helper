@@ -211,10 +211,8 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         prefWidthProperty().bind(vb!!.widthProperty().times(1.5))
                                                         prefHeightProperty().bind(vb!!.heightProperty())
                                                         action {
-                                                                Stage().apply {
-                                                                        isMaximized = true
-                                                                        scene = Scene(DetailForm().root)
-                                                                }.show()
+                                                                secondCard?:firstCard?:return@action
+                                                                DetailForm.show(firstCard!!, secondCard!!, tableCards.mapEach { first })
                                                         }
                                                 }
                                         }

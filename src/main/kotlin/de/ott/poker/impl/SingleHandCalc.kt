@@ -9,6 +9,19 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
 
     val allCards = LinkedList<PokerCard>()
 
+    companion object {
+        val NAMES = listOf("Straight Flush",
+            "Vierling",
+            "Full House",
+            "Flush",
+            "Straight",
+            "Drilling",
+            "Doppelpaar",
+            "Paar",
+            "Highest Card"
+        )
+    }
+
     val ORDER = mapOf(
         ::pair to 1,
         ::twoPair to 2,
@@ -20,6 +33,14 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
         ::straightFlush to 8
     )
 
+    val NAME_TO_FUNCTION = mapOf("Straight Flush" to ::straightFlush,
+    "Vierling" to ::fourOfAKind,
+    "Full House" to ::fullHouse,
+    "Flush" to ::flush,
+    "Straight" to ::straight,
+    "Drilling" to ::threeOfAKind,
+    "Doppelpaar" to ::twoPair,
+    "Paar" to ::pair)
 
     init {
         allCards.add(first)
@@ -31,14 +52,7 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     fun getHighest(): String{
-        mapOf("Straight Flush" to ::straightFlush,
-            "Vierling" to ::fourOfAKind,
-            "Full House" to ::fullHouse,
-            "Flush" to ::flush,
-            "Straight" to ::straight,
-            "Drilling" to ::threeOfAKind,
-            "Doppelpaar" to ::twoPair,
-            "Paar" to ::pair).forEach {
+        NAME_TO_FUNCTION.forEach {
             if(it.value.invoke()) return it.key
         }
         return "Highest Card"
@@ -57,9 +71,13 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
 
     fun twoPair(): Boolean {
         var count = 0
+        val l: LinkedList<Numbers> = LinkedList()
         allCards.forEach{ c1 ->
-            allCards.filter { c1 != it}.forEach {
-                if(c1.number == it.number) count++
+            allCards.filter { c1 != it}.forEach {c2 ->
+                if(c1.number == c2.number && l.none { it == c2.number }){
+                    count++
+                    l.add(c1.number)
+                }
             }
         }
         return count >= 2
