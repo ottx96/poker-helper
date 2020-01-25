@@ -1,3 +1,3 @@
 package de.ott.poker.data
 
-data class PokerCardInformation(var isHandCard: Boolean = false, var isTableCard: Boolean = false)
+data class PokerCardInformation(var isHandCard: Boolean = false, var isTableCard: Boolean = false, var isVisible: Boolean = false)
