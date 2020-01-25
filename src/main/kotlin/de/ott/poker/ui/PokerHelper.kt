@@ -1,15 +1,14 @@
 package de.ott.poker.ui
 
-import de.ott.poker.data.CardChooserDialog
 import de.ott.poker.data.PokerCard
+import de.ott.poker.data.calc.SingleHandCalc
 import javafx.event.EventHandler
-import javafx.geometry.Orientation
 import javafx.geometry.Pos
-import javafx.scene.control.ProgressBar
 import javafx.scene.effect.BlendMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import tornadofx.*
 import java.util.*
@@ -75,9 +74,6 @@ class PokerHelper: View("Poker Helper by Ott") {
                         }
                 }
                 hbox(30) {
-                        style{
-                                backgroundColor += Color.BEIGE
-                        }
                         alignment = Pos.BOTTOM_LEFT
                         prefHeightProperty().bind(vb.heightProperty().divide(2.5))
                         val hbox = this
@@ -87,7 +83,6 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         image = Image("de.ott.poker.cards/gray_back.png")
 
                                         style{
-                                                backgroundColor += Color(Math.random(),Math.random(),Math.random(),0.8)
                                                 alignment = Pos.BOTTOM_CENTER
                                         }
 
@@ -131,7 +126,6 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         image = Image("de.ott.poker.cards/gray_back.png")
 
                                         style{
-                                                backgroundColor += Color(Math.random(),Math.random(),Math.random(),0.8)
                                                 alignment = Pos.BOTTOM_CENTER
                                         }
 
@@ -170,10 +164,46 @@ class PokerHelper: View("Poker Helper by Ott") {
                                 add(secondCardImage!!)
                         }
                         borderpane {
-                                prefWidthProperty().bind(hbox.widthProperty().divide(2))
+                                prefWidthProperty().bind(hbox.widthProperty().minus((hbox.children[0] as Pane).widthProperty()).minus((hbox.children[1] as Pane).widthProperty()).minus(50))
+                                style{
+                                        alignment = Pos.CENTER
+                                        backgroundColor += Color.BEIGE
+                                }
+                                left{
+
+                                }
+                                bottom {
+                                        val bp = this
+                                        hbox(40){
+                                                vbox(2){
+                                                        val vb = this
+                                                        label("Derzeitiges Blatt")
+                                                        val lbl = label("N/A")
+                                                        button ("berechnen"){
+                                                                prefWidthProperty().bind(vb.widthProperty())
+                                                                action {
+                                                                        lbl.apply {
+                                                                                firstCard?:secondCard?:return@apply
+                                                                                text = SingleHandCalc(firstCard!!, secondCard!!, tableCards.mapEach { first }).getHighest()
+                                                                        }
+                                                                }
+                                                        }
+                                                }
+                                                vbox(2){
+                                                        label("Maximales Blatt")
+                                                        label("TODO: Straight Flush etc.")
+                                                }
+                                        }
+                                }
                                 right{
-                                        button("Reset") {
-                                                prefWidth = 200.0
+                                        imageview {
+                                                isPreserveRatio = true
+                                                image = Image("de.ott.poker.controls/PinClipart.com_newspaper-ad-clipart_2032112.png")
+                                                fitWidthProperty().bind(hbox.widthProperty().divide(20))
+                                                fitHeightProperty().bind(hbox.heightProperty().divide(1))
+                                                onMouseClicked = EventHandler {
+                                                        close()
+                                                }
                                         }
                                 }
                         }

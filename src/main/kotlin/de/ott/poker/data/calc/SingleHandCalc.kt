@@ -15,6 +15,22 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
         allCards.addAll(tableCards)
     }
 
+    fun getHighest(): String{
+        mapOf("Straight Flush" to ::straightFlush,
+            "Vierling" to ::fourOfAKind,
+            "Full House" to ::fullHouse,
+            "Flush" to ::flush,
+            "Straight" to ::straight,
+            "Drilling" to ::threeOfAKind,
+            "Doppelpaar" to ::twoPair,
+            "Paar" to ::pair).forEach {
+            if(it.value.invoke()) return it.key
+        }
+        return "Highest Card"
+    }
+
+    //TODO: Hier die Sortierte Liste der Karten liefern und null entspricht false!
+
     fun pair(): Boolean {
         allCards.forEach { cCard ->
             allCards.filter { it != cCard }.forEach {
@@ -47,14 +63,18 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     fun straight(): Boolean {
-        val sorted = allCards.sortedBy { it.number.id }
-        for(i in 0..2){
-            for(j in i..i+4){
-                if(sorted[j].number.id != sorted[j+1].number.id) break
-                else if(j == i+4) return true
+        try{
+            val sorted = allCards.sortedBy { it.number.id }
+            for(i in 0..2){
+                for(j in i..i+4){
+                    if(sorted[j].number.id != sorted[j+1].number.id) break
+                    else if(j == i+4) return true
+                }
             }
+            return false
+        }catch(e: Exception){
+            return false
         }
-        return false
     }
 
     fun flush(): Boolean {

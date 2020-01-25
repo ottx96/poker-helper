@@ -1,5 +1,8 @@
-package de.ott.poker.data
+package de.ott.poker.ui
 
+import de.ott.poker.data.Colors
+import de.ott.poker.data.Numbers
+import de.ott.poker.data.PokerCard
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import tornadofx.*
@@ -24,7 +27,10 @@ class CardChooserDialog : View("Kartenwahl") {
             Stage().apply {
                 scene = Scene(CardChooserDialog().root)
             }.showAndWait()
-            return CardChooserDialogResult(resultImage!!, resultCard!!)
+            return CardChooserDialogResult(
+                resultImage!!,
+                resultCard!!
+            )
         }
     }
 
@@ -38,25 +44,33 @@ class CardChooserDialog : View("Kartenwahl") {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox, PokerCard(it, Colors.KARO)))  }
+            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
+                PokerCard(it, Colors.KARO)
+            ))  }
         }
         hbox(10) {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox, PokerCard(it, Colors.HERZ)))  }
+            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
+                PokerCard(it, Colors.HERZ)
+            ))  }
         }
         hbox(10) {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox, PokerCard(it, Colors.KREUZ)))  }
+            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
+                PokerCard(it, Colors.KREUZ)
+            ))  }
         }
         hbox(10) {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox, PokerCard(it, Colors.PIK)))  }
+            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
+                PokerCard(it, Colors.PIK)
+            ))  }
         }
     }
 
