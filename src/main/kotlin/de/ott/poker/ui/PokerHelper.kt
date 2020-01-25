@@ -4,12 +4,15 @@ import de.ott.poker.data.PokerCard
 import de.ott.poker.data.calc.SingleHandCalc
 import javafx.event.EventHandler
 import javafx.geometry.Pos
+import javafx.scene.Scene
 import javafx.scene.effect.BlendMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Pane
+import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
+import javafx.stage.Stage
 import tornadofx.*
 import java.util.*
 
@@ -189,20 +192,39 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                 }
                                                         }
                                                 }
+                                                var vb: VBox? = null
                                                 vbox(2){
+                                                        vb = this
                                                         label("Maximales Blatt")
-                                                        label("TODO: Straight Flush etc.")
+                                                        val lbl = label("TODO: Straight Flush etc.")
+                                                        button("berechnen") {
+                                                                prefWidthProperty().bind(vb!!.widthProperty())
+                                                                action{
+
+                                                                }
+                                                        }
+                                                }
+                                                button("Details"){
+                                                        prefWidthProperty().bind(vb!!.widthProperty().times(1.5))
+                                                        prefHeightProperty().bind(vb!!.heightProperty())
+                                                        action {
+                                                                Stage().apply {
+                                                                        scene = Scene(DetailForm().root)
+                                                                }.show()
+                                                        }
                                                 }
                                         }
-                                }
-                                right{
-                                        imageview {
-                                                isPreserveRatio = true
-                                                image = Image("de.ott.poker.controls/PinClipart.com_newspaper-ad-clipart_2032112.png")
-                                                fitWidthProperty().bind(hbox.widthProperty().divide(20))
-                                                fitHeightProperty().bind(hbox.heightProperty().divide(1))
-                                                onMouseClicked = EventHandler {
-                                                        close()
+                                        right{
+                                                vbox {
+                                                        imageview {
+                                                                isPreserveRatio = true
+                                                                image = Image("de.ott.poker.controls/PinClipart.com_newspaper-ad-clipart_2032112.png")
+                                                                fitWidthProperty().bind(hbox.widthProperty().divide(15))
+                                                                fitHeightProperty().bind(hbox.heightProperty().divide(1))
+                                                                onMouseClicked = EventHandler {
+                                                                        close()
+                                                                }
+                                                        }
                                                 }
                                         }
                                 }
