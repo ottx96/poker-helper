@@ -38,3 +38,17 @@ enum class Numbers(val id: Int, val desc: String = id.toString()) {
         return desc
     }
 }
+
+enum class PokerHands(val desc: String){
+    STRAIGHT_FLUSH("Straight Flush"),
+    FOUR_OF_A_KIND("Vierling"),
+    FULL_HOUSE("Full House"),
+    FLUSH("Flush"),
+    STRAIGHT("Straight"),
+    THREE_OF_A_KIND("Drilling"),
+    TWO_PAIR("Doppelpaar"),
+    ONE_PAIR("Paar"),
+    HIGH_CARD("Höchste Karte");
+
+    override fun toString() = desc
+}

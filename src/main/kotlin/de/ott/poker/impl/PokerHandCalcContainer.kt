@@ -1,3 +1,5 @@
 package de.ott.poker.impl
 
-class PokerHandCalcContainer(val desc: String = "N/A", var probability: Double = 0.4)
+import de.ott.poker.data.PokerHands
+
+class PokerHandCalcContainer(val hand: PokerHands = PokerHands.HIGH_CARD, var probability: Double = 0.4, val desc: String = hand.desc)

@@ -3,35 +3,12 @@ package de.ott.poker.impl
 import de.ott.poker.data.Colors
 import de.ott.poker.data.Numbers
 import de.ott.poker.data.PokerCard
+import de.ott.poker.data.PokerHands
 import java.util.*
 
 class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards: List<PokerCard>) {
 
     val allCards = LinkedList<PokerCard>()
-
-    companion object {
-        val NAMES = listOf("Straight Flush",
-            "Vierling",
-            "Full House",
-            "Flush",
-            "Straight",
-            "Drilling",
-            "Doppelpaar",
-            "Paar",
-            "Highest Card"
-        )
-    }
-
-    val ORDER = mapOf(
-        ::pair to 1,
-        ::twoPair to 2,
-        ::threeOfAKind to 3,
-        ::straight to 4,
-        ::flush to 5,
-        ::fullHouse to 6,
-        ::fourOfAKind to 7,
-        ::straightFlush to 8
-    )
 
     val NAME_TO_FUNCTION = mapOf("Straight Flush" to ::straightFlush,
     "Vierling" to ::fourOfAKind,
@@ -46,9 +23,7 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
         allCards.add(first)
         allCards.add(second)
         allCards.addAll(tableCards.filter { it != first && it != second })
-
-        println("--SingleHandCalc--")
-        allCards.forEach(::println)
+        println(this)
     }
 
     fun getHighest(): String{
@@ -59,6 +34,8 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     //TODO: Hier die Sortierte Liste der Karten liefern und null entspricht false!
+
+    fun highCard(): Boolean = true
 
     fun pair(): Boolean {
         allCards.forEach { cCard ->
@@ -97,12 +74,10 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     fun straight(): Boolean {
         if(allCards.size < 5) return false
         val sorted = allCards.sortedBy { it.number.id }
-        sorted.forEach(::println)
         for(offset in 0..sorted.size - 5){
-           println("Offset: $offset")
            var straight = true
            for(i in 1..5){
-               if(sorted[i+offset].number.id - 1 != sorted[i-1+offset].number.id){
+               if(sorted[i+offset].number.id - 1 != sorted[i+offset].number.id){
                    straight = false
                    break
                }
@@ -147,12 +122,10 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     fun straightFlush(): Boolean {
         if(allCards.size < 5) return false
         val sorted = allCards.sortedBy { it.number.id }
-        sorted.forEach(::println)
         for(offset in 0..sorted.size - 5){
-            println("Offset: $offset")
             var straight_flush = true
             for(i in 1..6){
-                if(sorted[i+offset].number.id - 1 != sorted[i-1+offset].number.id || sorted[i+offset].color != sorted[i-1+offset].color){
+                if(sorted[i+offset].number.id - 1 != sorted[i+offset].number.id || sorted[i+offset].color != sorted[i+offset].color){
                     straight_flush = false
                     break
                 }
@@ -168,14 +141,15 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
             |------------------------------------------------
             ||${tableCards.joinToString(" | ")}|
             |------------------------------------------------
-            |Zwilling               ${pair()}
-            |doppelter Zwilling     ${twoPair()}
-            |Drilling               ${threeOfAKind()}
-            |Straight (Strasse)     ${straight()}
-            |Flush                  ${flush()}
-            |Full House             ${fullHouse()}
-            |Vierling               ${fourOfAKind()}
-            |Straight Flush         ${straightFlush()}
+            |${PokerHands.HIGH_CARD}			   ${highCard()}
+            |${PokerHands.ONE_PAIR}			       ${pair()}
+            |${PokerHands.TWO_PAIR}			       ${twoPair()}
+            |${PokerHands.THREE_OF_A_KIND}			   ${threeOfAKind()}
+            |${PokerHands.STRAIGHT}			       ${straight()}
+            |${PokerHands.FLUSH}			       ${flush()}
+            |${PokerHands.FULL_HOUSE}			   ${fullHouse()}
+            |${PokerHands.FOUR_OF_A_KIND}			   ${fourOfAKind()}
+            |${PokerHands.STRAIGHT_FLUSH}			   ${straightFlush()}
         """.trimMargin()
     }
 

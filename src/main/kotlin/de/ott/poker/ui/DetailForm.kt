@@ -2,6 +2,7 @@ package de.ott.poker.ui
 
 import de.ott.poker.data.PokerCard
 import de.ott.poker.data.PokerDeck
+import de.ott.poker.data.PokerHands
 import de.ott.poker.impl.PokerHandCalcContainer
 import de.ott.poker.impl.SingleHandCalc
 import javafx.geometry.Pos
@@ -35,7 +36,7 @@ class DetailForm : View("Details") {
     val probabilities = LinkedList<PokerHandCalcContainer>().asObservable()
 
     init {
-        SingleHandCalc.NAMES.forEach {
+        PokerHands.values().forEach {
             probabilities.add(PokerHandCalcContainer(it))
         }
 
