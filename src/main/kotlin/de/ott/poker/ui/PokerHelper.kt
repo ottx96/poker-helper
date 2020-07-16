@@ -191,7 +191,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                                 text = SingleHandCalc(
                                                                                         firstCard!!,
                                                                                         secondCard!!,
-                                                                                        tableCards.mapEach { first }).getHighest()
+                                                                                        tableCards.mapEach { first }).getHighest().desc
                                                                         }
                                                                 }
                                                         }

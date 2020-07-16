@@ -6,34 +6,23 @@ import de.ott.poker.data.PokerCard
 import de.ott.poker.data.PokerHands
 import java.util.*
 
-class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards: List<PokerCard>) {
+class SingleHandCalc(private val first: PokerCard, private val second: PokerCard, private val tableCards: List<PokerCard>) {
 
-    val allCards = LinkedList<PokerCard>()
+    private val allCards = LinkedList<PokerCard>()
 
-    val NAME_TO_FUNCTION = mapOf("Straight Flush" to ::straightFlush,
-    "Vierling" to ::fourOfAKind,
-    "Full House" to ::fullHouse,
-    "Flush" to ::flush,
-    "Straight" to ::straight,
-    "Drilling" to ::threeOfAKind,
-    "Doppelpaar" to ::twoPair,
-    "Paar" to ::pair)
+    private val methodToHand = listOf(::straightFlush, ::fourOfAKind, ::fullHouse, ::flush, ::straight, ::threeOfAKind, ::twoPair, ::pair, ::highCard).zip(PokerHands.values()).toMap()
 
     init {
         allCards.add(first)
         allCards.add(second)
         allCards.addAll(tableCards.filter { it != first && it != second })
-        println(this)
     }
 
-    fun getHighest(): String{
-        NAME_TO_FUNCTION.forEach {
-            if(it.value.invoke()) return it.key
-        }
-        return "Highest Card"
+    fun getHighest(): PokerHands{
+        return methodToHand.filter {
+            (it.key.invoke())
+        }.entries.iterator().next().value
     }
-
-    //TODO: Hier die Sortierte Liste der Karten liefern und null entspricht false!
 
     fun highCard(): Boolean = true
 

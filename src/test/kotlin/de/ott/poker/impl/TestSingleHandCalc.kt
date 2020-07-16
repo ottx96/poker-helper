@@ -1,9 +1,6 @@
 package de.ott.poker.impl
 
-import de.ott.poker.data.Colors
-import de.ott.poker.data.Numbers
-import de.ott.poker.data.PokerCard
-import de.ott.poker.data.PokerDeck
+import de.ott.poker.data.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -34,7 +31,9 @@ class TestSingleHandCalc {
         val calc = SingleHandCalc(hand[0], hand[1], table)
         assert(!calc.straight())
         assert(calc.pair())
-        assert(calc.getHighest() != "Straight")
+        assert(calc.highCard())
+        assert(calc.getHighest() != PokerHands.STRAIGHT)
+        assert(calc.getHighest() == PokerHands.ONE_PAIR)
     }
 
 }
