@@ -36,7 +36,7 @@ class DetailForm : View("Details") {
 
     init {
         SingleHandCalc.NAMES.forEach {
-            probabilities.add( PokerHandCalcContainer(it) )
+            probabilities.add(PokerHandCalcContainer(it))
         }
 
         PokerDeck.reset()
@@ -54,9 +54,13 @@ class DetailForm : View("Details") {
             }
         }
 
-        PokerDeck.DECK.filter { !it.information.isHandCard && !it.information.isTableCard }.forEach {card1 ->
-            PokerDeck.DECK.filter { !it.information.isHandCard && !it.information.isTableCard && it != card1 }.forEach {card2 ->
-                println("$card1 $card2 = ${SingleHandCalc(card1, card2, tableCards!!).getHighest()}")
+        PokerDeck.DECK.filter { !it.information.isHandCard && !it.information.isTableCard }.forEach { card1 ->
+            PokerDeck.DECK.filter { !it.information.isHandCard && !it.information.isTableCard && it != card1 }.forEach { card2 ->
+                println("$card1 $card2 = ${SingleHandCalc(
+                    card1,
+                    card2,
+                    tableCards!!
+                ).getHighest()}")
             }
         }
 

@@ -58,7 +58,8 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         onMouseClicked = EventHandler<MouseEvent>{
                                                 hbox.add(
                                                         pane {
-                                                                CardChooserDialog.showDialog().apply {
+                                                                CardChooserDialog.showDialog()
+                                                                        .apply {
                                                                         tableCards.add( card to image )
                                                                         add(image.apply {
                                                                                 fitHeightProperty().bind(hbox.heightProperty())
@@ -212,7 +213,10 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         prefHeightProperty().bind(vb!!.heightProperty())
                                                         action {
                                                                 secondCard?:firstCard?:return@action
-                                                                DetailForm.show(firstCard!!, secondCard!!, tableCards.mapEach { first })
+                                                                DetailForm.show(
+                                                                        firstCard!!,
+                                                                        secondCard!!,
+                                                                        tableCards.mapEach { first })
                                                         }
                                                 }
                                         }

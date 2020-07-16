@@ -45,7 +45,7 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     init {
         allCards.add(first)
         allCards.add(second)
-        allCards.addAll(tableCards)
+        allCards.addAll(tableCards.filter { it != first && it != second })
 
         println("--SingleHandCalc--")
         allCards.forEach(::println)
@@ -113,7 +113,7 @@ class SingleHandCalc(val first: PokerCard, val second: PokerCard, val tableCards
     }
 
     fun flush(): Boolean {
-        Colors.values().forEach {col ->
+        Colors.values().forEach { col ->
             if(allCards.count { it.color == col } >= 5) return true
         }
         return false

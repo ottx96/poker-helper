@@ -48,7 +48,10 @@ class CardChooserDialog : View("Kartenwahl") {
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(it, Colors.KARO)
+                PokerCard(
+                    it,
+                    Colors.KARO
+                )
             ))  }
         }
         hbox(10) {
@@ -56,7 +59,10 @@ class CardChooserDialog : View("Kartenwahl") {
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(it, Colors.HERZ)
+                PokerCard(
+                    it,
+                    Colors.HERZ
+                )
             ))  }
         }
         hbox(10) {
@@ -64,7 +70,10 @@ class CardChooserDialog : View("Kartenwahl") {
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(it, Colors.KREUZ)
+                PokerCard(
+                    it,
+                    Colors.KREUZ
+                )
             ))  }
         }
         hbox(10) {
@@ -72,7 +81,10 @@ class CardChooserDialog : View("Kartenwahl") {
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(it, Colors.PIK)
+                PokerCard(
+                    it,
+                    Colors.PIK
+                )
             ))  }
         }
     }

@@ -4,11 +4,12 @@ import java.util.*
 
 object PokerDeck {
 
-    private var _DECK = createDeck()
-    val DECK = _DECK
+    var DECK = createDeck()
 
-    fun reset() {
-        _DECK = createDeck()
+    fun reset(): LinkedList<PokerCard> {
+        DECK =
+            createDeck()
+        return DECK
     }
 
 
@@ -17,7 +18,15 @@ object PokerDeck {
 
         for(number in 2..14)
             for(color in 0..3)
-                res.add( PokerCard(Numbers.byId(number), Colors.byId(color), PokerCardInformation()) )
+                res.add(
+                    PokerCard(
+                        Numbers.byId(
+                            number
+                        ),
+                        Colors.byId(color),
+                        PokerCardInformation()
+                    )
+                )
 
         return res
     }
