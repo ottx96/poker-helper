@@ -1,10 +1,10 @@
 package de.ott.poker.ui
 
+import de.ott.poker.data.Calculations
 import de.ott.poker.data.PokerCard
-import de.ott.poker.impl.SingleHandCalc
+import de.ott.poker.impl.CalcTask
 import javafx.event.EventHandler
 import javafx.geometry.Pos
-import javafx.scene.Scene
 import javafx.scene.effect.BlendMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -12,12 +12,14 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
-import javafx.stage.Stage
 import tornadofx.*
+import java.time.LocalTime
 import java.util.*
 
 
 class PokerHelper: View("Poker Helper by Ott") {
+
+
 
         var firstCardImage: ImageView? = null
         var firstCard: PokerCard? = null
@@ -66,12 +68,20 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                                 fitWidthProperty().bind(hbox.widthProperty() / 7)
                                                                         })
                                                                 }
+                                                                // TODO: calculate everything!
+                                                                val calcTask = CalcTask(tableCards.mapEach { first }.toMutableList().apply{
+                                                                        add(firstCard!!)
+                                                                        add(secondCard!!)
+                                                                })
+                                                                calcTask.setOnSucceeded {
+                                                                        Calculations.lbl_currentHand.text = calcTask.get().desc
+                                                                }
+                                                                Calculations.threads.execute(calcTask)
                                                         }
                                                 )
                                         }
                                 }
                         }
-
                         /// Platz nach rechts
                         label {
                                 prefWidthProperty().bind(vb.widthProperty().divide(28))
@@ -105,6 +115,15 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         firstCardImage = image
                                                         firstCard = card
                                                 }
+                                                val calcTask = CalcTask(tableCards.mapEach { first }.toMutableList().apply{
+                                                        add(firstCard!!)
+                                                        add(secondCard!!)
+                                                })
+                                                calcTask.setOnSucceeded {
+                                                        Calculations.lbl_currentHand.text = calcTask.get().desc
+                                                }
+                                                Calculations.threads.execute(calcTask)
+
                                                 pane.replaceChildren(firstCardImage!!)
                                                 firstCardImage!!.apply {
                                                         fitWidthProperty().bind(vb.widthProperty().divide(2))
@@ -182,31 +201,13 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                 vbox(2){
                                                         val vb = this
                                                         label("Derzeitiges Blatt")
-                                                        val lbl = label("N/A")
-                                                        button ("berechnen"){
-                                                                prefWidthProperty().bind(vb.widthProperty())
-                                                                action {
-                                                                        lbl.apply {
-                                                                                firstCard?:secondCard?:return@apply
-                                                                                text = SingleHandCalc(
-                                                                                        firstCard!!,
-                                                                                        secondCard!!,
-                                                                                        tableCards.mapEach { first }).getHighest().desc
-                                                                        }
-                                                                }
-                                                        }
+                                                        add(Calculations.lbl_currentHand)
                                                 }
                                                 var vb: VBox? = null
                                                 vbox(2){
                                                         vb = this
                                                         label("Maximales Blatt")
-                                                        val lbl = label("TODO: Straight Flush etc.")
-                                                        button("berechnen") {
-                                                                prefWidthProperty().bind(vb!!.widthProperty())
-                                                                action{
-
-                                                                }
-                                                        }
+                                                        add(Calculations.lbl_maxHand)
                                                 }
                                                 button("Details"){
                                                         prefWidthProperty().bind(vb!!.widthProperty().times(1.5))

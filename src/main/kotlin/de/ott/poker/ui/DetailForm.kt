@@ -4,7 +4,6 @@ import de.ott.poker.data.PokerCard
 import de.ott.poker.data.PokerDeck
 import de.ott.poker.data.PokerHands
 import de.ott.poker.impl.PokerHandCalcContainer
-import de.ott.poker.impl.SingleHandCalc
 import javafx.collections.ObservableList
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -63,11 +62,7 @@ class DetailForm : View("Details") {
 
         PokerDeck.DECK.filter { !it.information.isHandCard && !it.information.isTableCard }.forEach { card1 ->
             PokerDeck.DECK.filter { !it.information.isHandCard && !it.information.isTableCard && it != card1 }.forEach { card2 ->
-                println("$card1 $card2 = ${SingleHandCalc(
-                    card1,
-                    card2,
-                    tableCards!!
-                ).getHighest()}")
+                TODO("TBD")
             }
         }
 

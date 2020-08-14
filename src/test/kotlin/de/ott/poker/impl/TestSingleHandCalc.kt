@@ -14,7 +14,7 @@ class TestSingleHandCalc {
     }
 
     @Test
-    fun `test straight (negative)`(){
+    fun `test single hand calc`(){
         val hand =
             listOf(
                 PokerCard(Numbers.TWO, Colors.PIK),
@@ -28,12 +28,15 @@ class TestSingleHandCalc {
                 PokerCard(Numbers.FIVE, Colors.KARO)
             )
 
-        val calc = SingleHandCalc(hand[0], hand[1], table)
-        assert(!calc.straight())
-        assert(calc.pair())
-        assert(calc.highCard())
-        assert(calc.getHighest() != PokerHands.STRAIGHT)
-        assert(calc.getHighest() == PokerHands.ONE_PAIR)
+        val cards = hand.toMutableList().apply {
+            addAll(table)
+        }
+
+        assert(PokerHands.HIGH_CARD.applies(cards))
+        assert(PokerHands.ONE_PAIR.applies(cards))
+        assert(!PokerHands.STRAIGHT.applies(cards))
+        assert(PokerHands.getHighest(cards) == PokerHands.ONE_PAIR)
+        assert(PokerHands.getHighest(cards) != PokerHands.STRAIGHT)
     }
 
 }
