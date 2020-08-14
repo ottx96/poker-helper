@@ -25,10 +25,6 @@ class CardChooserDialog : View("Kartenwahl") {
 
         fun showDialog(): CardChooserDialogResult {
             Stage().apply {
-
-//                val scr = Screen.getPrimary().bounds
-   //             width = scr.width
-     //           height = scr.height
                 isMaximized = true
                 scene = Scene(CardChooserDialog().root)
             }.showAndWait()

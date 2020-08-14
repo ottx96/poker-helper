@@ -37,12 +37,12 @@ class DetailForm : View("Details") {
         }
     }
 
-    val enem_pobabilities: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
-    val own_probabilities: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
+    private val enemyProbs: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
+    private val ownProbs: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
 
     init {
         PokerHand.values().forEach {
-            enem_pobabilities.add(PokerHandCalcContainer(it))
+            enemyProbs.add(PokerHandCalcContainer(it))
         }
 
         PokerDeck.reset()
@@ -119,7 +119,7 @@ class DetailForm : View("Details") {
                     }
                 }
 
-                tableview(enem_pobabilities) {
+                tableview(enemyProbs) {
                     readonlyColumn("Bezeichnung", PokerHandCalcContainer::desc)
                     readonlyColumn("Wahrscheinlichkeit", PokerHandCalcContainer::probability)
 //                    readonlyColumn("Wahrscheinlichkeit (%)", PokerHandCalcContainer::probability).useProgressBar

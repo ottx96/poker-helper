@@ -17,15 +17,18 @@ import tornadofx.*
 import java.util.*
 
 class PokerHelper: View("Poker Helper by Ott") {
-        var firstCardImage: ImageView? = null
-        var handLeft: PokerCard? = null
 
-        var secondCardImage: ImageView? = null
-        var handRight: PokerCard? = null
+        companion object{
+                const val CHOSEN_IMAGE = "de.ott.poker.cards/green_back.png"
+        }
 
-        val tableCards = LinkedList<Pair<PokerCard, ImageView>>()
+        private var firstCardImage: ImageView? = null
+        private var handLeft: PokerCard? = null
 
-        val CHOSEN_IMAGE = "de.ott.poker.cards/green_back.png"
+        private var secondCardImage: ImageView? = null
+        private var handRight: PokerCard? = null
+
+        private val tableCards = LinkedList<Pair<PokerCard, ImageView>>()
 
         override val root = vbox(75) {
                 val vb = this
@@ -208,10 +211,8 @@ class PokerHelper: View("Poker Helper by Ott") {
 
                                 }
                                 bottom {
-                                        val bp = this
                                         hbox(40){
                                                 vbox(2){
-                                                        val vb = this
                                                         label("Derzeitiges Blatt")
                                                         add(Calculations.lbl_currentHand)
                                                 }

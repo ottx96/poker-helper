@@ -5,10 +5,10 @@ enum class Color(val id: Int, val desc: String) {
 
     companion object {
         fun byId(id: Int): Color =
-                Color.values().first { it.id == id }
+                values().first { it.id == id }
 
         fun byName(name: String) =
-                Color.values().first { it.desc.compareTo(name, true) == 0 }
+                values().first { it.desc.compareTo(name, true) == 0 }
     }
 
     override fun toString(): String {

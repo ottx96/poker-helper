@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class TestSingleHandCalc {
 
-    var deck = PokerDeck.reset()
+    private var deck = PokerDeck.reset()
 
     @BeforeEach
     fun initDeck(){

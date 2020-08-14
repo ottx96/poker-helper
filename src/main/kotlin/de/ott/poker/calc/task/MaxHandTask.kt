@@ -5,7 +5,7 @@ import de.ott.poker.data.PokerDeck
 import de.ott.poker.data.enumerations.PokerHand
 import javafx.concurrent.Task
 
-class MaxHandTask(val hand: List<PokerCard>, val table: List<PokerCard>): Task<PokerHand>() {
+class MaxHandTask(private val hand: List<PokerCard>, private val table: List<PokerCard>): Task<PokerHand>() {
 
     override fun call(): PokerHand {
 

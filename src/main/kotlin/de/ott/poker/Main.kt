@@ -7,12 +7,9 @@ import tornadofx.App
 import tornadofx.Stylesheet
 import tornadofx.c
 import tornadofx.px
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 
 class Main: App(PokerHelper::class, Styles::class){
-    val threads = Executors.newCachedThreadPool()
 
     override fun start(stage: Stage) {
         super.start(stage.apply {

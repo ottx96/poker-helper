@@ -8,13 +8,13 @@ enum class Numbers(val id: Int, val desc: String = id.toString()) {
 
     companion object {
         fun byId(id: Int) =
-                Numbers.values().first { it.id == id }
+                values().first { it.id == id }
 
         fun byName(name: String) =
-                Numbers.values().first { it.desc.startsWith(name) }
+                values().first { it.desc.startsWith(name) }
 
         fun byName(name: Int) =
-                Numbers.values().first { it.desc.compareTo(name.toString(), true) == 0 }
+                values().first { it.desc.compareTo(name.toString(), true) == 0 }
     }
 
     override fun toString(): String {
