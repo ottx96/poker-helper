@@ -1,8 +1,9 @@
 package de.ott.poker.data
 
+import de.ott.poker.data.enumerations.Color
+import de.ott.poker.data.enumerations.Numbers
+import de.ott.poker.data.enumerations.PokerHand
 import java.util.*
-import java.util.stream.Stream
-import kotlin.streams.toList
 
 object SingleHand {
 
@@ -60,7 +61,7 @@ object SingleHand {
     }
 
     fun flush(cards: List<PokerCard>): Boolean {
-        Colors.values().forEach { col ->
+        Color.values().forEach { col ->
             if(cards.count { it.color == col } >= 5) return true
         }
         return false
@@ -107,13 +108,13 @@ object SingleHand {
         return false
     }
 
-    fun getHighestHand(hand: List<PokerCard>, table: List<PokerCard>): PokerHands {
+    fun getHighestHand(hand: List<PokerCard>, table: List<PokerCard>): PokerHand {
         return getHighestHand(hand.toMutableList().apply {
             addAll(table)
         })
     }
 
-    fun getHighestHand(handLeft: PokerCard, handRight: PokerCard, table: List<PokerCard>): PokerHands {
+    fun getHighestHand(handLeft: PokerCard, handRight: PokerCard, table: List<PokerCard>): PokerHand {
         return getHighestHand(table.toMutableList().apply {
             add(handLeft)
             add(handRight)
@@ -121,23 +122,23 @@ object SingleHand {
     }
 
     fun getHighestHand(cards: List<PokerCard>) =
-            PokerHands.values().toList().sortedBy { - it.weight }.first { it.applies(cards) }
+            PokerHand.values().toList().sortedBy { - it.weight }.first { it.applies(cards) }
 
-    fun getHands(hand: List<PokerCard>, table: List<PokerCard>): List<PokerHands> {
+    fun getHands(hand: List<PokerCard>, table: List<PokerCard>): List<PokerHand> {
         return getHands(hand.toMutableList().apply {
             addAll(table)
         })
     }
 
-    fun getHands(handLeft: PokerCard, handRight: PokerCard, table: List<PokerCard>): List<PokerHands> {
+    fun getHands(handLeft: PokerCard, handRight: PokerCard, table: List<PokerCard>): List<PokerHand> {
         return getHands(table.toMutableList().apply {
             add(handLeft)
             add(handRight)
         })
     }
 
-    fun getHands(cards: List<PokerCard>): List<PokerHands> =
-        PokerHands.values().toList()
+    fun getHands(cards: List<PokerCard>): List<PokerHand> =
+        PokerHand.values().toList()
                 .sortedBy{ - it.weight }
                 .filter{ it.applies(cards) }
 

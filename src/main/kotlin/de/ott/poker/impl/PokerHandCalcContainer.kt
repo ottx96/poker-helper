@@ -1,5 +1,5 @@
 package de.ott.poker.impl
 
-import de.ott.poker.data.PokerHands
+import de.ott.poker.data.enumerations.PokerHand
 
-class PokerHandCalcContainer(val hand: PokerHands = PokerHands.HIGH_CARD, var probability: Double = 0.4, val desc: String = hand.desc)
+data class PokerHandCalcContainer(val hand: PokerHand = PokerHand.HIGH_CARD, var probability: Double = 0.4, val desc: String = hand.desc)

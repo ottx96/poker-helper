@@ -2,7 +2,7 @@ package de.ott.poker.ui
 
 import de.ott.poker.data.PokerCard
 import de.ott.poker.data.PokerDeck
-import de.ott.poker.data.PokerHands
+import de.ott.poker.data.enumerations.PokerHand
 import de.ott.poker.impl.PokerHandCalcContainer
 import javafx.collections.ObservableList
 import javafx.geometry.Pos
@@ -41,7 +41,7 @@ class DetailForm : View("Details") {
     val own_probabilities: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
 
     init {
-        PokerHands.values().forEach {
+        PokerHand.values().forEach {
             enem_pobabilities.add(PokerHandCalcContainer(it))
         }
 

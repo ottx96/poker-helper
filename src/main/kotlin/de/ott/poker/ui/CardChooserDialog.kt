@@ -1,8 +1,8 @@
 package de.ott.poker.ui
 
-import de.ott.poker.data.Colors
-import de.ott.poker.data.Numbers
+import de.ott.poker.data.enumerations.Numbers
 import de.ott.poker.data.PokerCard
+import de.ott.poker.data.enumerations.Color
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import tornadofx.*
@@ -13,7 +13,6 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
-import javafx.stage.Screen
 import javafx.stage.Stage
 
 data class CardChooserDialogResult(val image: ImageView, val card: PokerCard)
@@ -50,7 +49,7 @@ class CardChooserDialog : View("Kartenwahl") {
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
                 PokerCard(
                     it,
-                    Colors.KARO
+                    Color.KARO
                 )
             ))  }
         }
@@ -61,7 +60,7 @@ class CardChooserDialog : View("Kartenwahl") {
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
                 PokerCard(
                     it,
-                    Colors.HERZ
+                    Color.HERZ
                 )
             ))  }
         }
@@ -72,7 +71,7 @@ class CardChooserDialog : View("Kartenwahl") {
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
                 PokerCard(
                     it,
-                    Colors.KREUZ
+                    Color.KREUZ
                 )
             ))  }
         }
@@ -83,7 +82,7 @@ class CardChooserDialog : View("Kartenwahl") {
             Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
                 PokerCard(
                     it,
-                    Colors.PIK
+                    Color.PIK
                 )
             ))  }
         }

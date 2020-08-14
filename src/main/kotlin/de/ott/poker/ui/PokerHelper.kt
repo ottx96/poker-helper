@@ -2,7 +2,8 @@ package de.ott.poker.ui
 
 import de.ott.poker.data.Calculations
 import de.ott.poker.data.PokerCard
-import de.ott.poker.impl.CalcTask
+import de.ott.poker.calc.task.CurrentHandTask
+import de.ott.poker.calc.task.MaxHandTask
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.effect.BlendMode
@@ -13,19 +14,14 @@ import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import tornadofx.*
-import java.time.LocalTime
 import java.util.*
 
-
 class PokerHelper: View("Poker Helper by Ott") {
-
-
-
         var firstCardImage: ImageView? = null
-        var firstCard: PokerCard? = null
+        var handLeft: PokerCard? = null
 
         var secondCardImage: ImageView? = null
-        var secondCard: PokerCard? = null
+        var handRight: PokerCard? = null
 
         val tableCards = LinkedList<Pair<PokerCard, ImageView>>()
 
@@ -68,15 +64,23 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                                 fitWidthProperty().bind(hbox.widthProperty() / 7)
                                                                         })
                                                                 }
-                                                                // TODO: calculate everything!
-                                                                val calcTask = CalcTask(tableCards.mapEach { first }.toMutableList().apply{
-                                                                        add(firstCard!!)
-                                                                        add(secondCard!!)
+
+                                                                // display current hand
+                                                                val currHand = CurrentHandTask(tableCards.mapEach { first }.toMutableList().apply {
+                                                                        add(handLeft!!)
+                                                                        add(handRight!!)
                                                                 })
-                                                                calcTask.setOnSucceeded {
-                                                                        Calculations.lbl_currentHand.text = calcTask.get().desc
+                                                                currHand.setOnSucceeded {
+                                                                        Calculations.lbl_currentHand.text = currHand.get().desc
                                                                 }
-                                                                Calculations.threads.execute(calcTask)
+                                                                Calculations.threads.execute(currHand)
+
+                                                                // display max hand possible
+                                                                val maxHand = MaxHandTask( listOf(handLeft!!, handRight!!), tableCards.mapEach { first })
+                                                                maxHand.setOnSucceeded {
+                                                                        Calculations.lbl_maxHand.text = maxHand.get().desc
+                                                                }
+                                                                Calculations.threads.execute(maxHand)
                                                         }
                                                 )
                                         }
@@ -113,16 +117,24 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         onMouseClicked = EventHandler<MouseEvent>{
                                                 with(CardChooserDialog.showDialog()){
                                                         firstCardImage = image
-                                                        firstCard = card
+                                                        handLeft = card
                                                 }
-                                                val calcTask = CalcTask(tableCards.mapEach { first }.toMutableList().apply{
-                                                        add(firstCard!!)
-                                                        add(secondCard!!)
+                                                // display current hand
+                                                val currHand = CurrentHandTask(tableCards.mapEach { first }.toMutableList().apply {
+                                                        add(handLeft!!)
+                                                        add(handRight!!)
                                                 })
-                                                calcTask.setOnSucceeded {
-                                                        Calculations.lbl_currentHand.text = calcTask.get().desc
+                                                currHand.setOnSucceeded {
+                                                        Calculations.lbl_currentHand.text = currHand.get().desc
                                                 }
-                                                Calculations.threads.execute(calcTask)
+                                                Calculations.threads.execute(currHand)
+
+                                                // display max hand possible
+                                                val maxHand = MaxHandTask( listOf(handLeft!!, handRight!!), tableCards.mapEach { first })
+                                                maxHand.setOnSucceeded {
+                                                        Calculations.lbl_maxHand.text = maxHand.get().desc
+                                                }
+                                                Calculations.threads.execute(maxHand)
 
                                                 pane.replaceChildren(firstCardImage!!)
                                                 firstCardImage!!.apply {
@@ -130,12 +142,12 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         fitHeightProperty().bind(hbox.heightProperty().divide(1))
                                                         image = Image(CHOSEN_IMAGE)
                                                         onMouseClicked = EventHandler {
-                                                                if(firstCard!!.information.isVisible){
+                                                                if(handLeft!!.information.isVisible){
                                                                         image = Image(CHOSEN_IMAGE)
-                                                                        firstCard!!.information.isVisible = false
+                                                                        handLeft!!.information.isVisible = false
                                                                 }else{
-                                                                        image = Image(firstCard!!.getImageURL())
-                                                                        firstCard!!.information.isVisible = true
+                                                                        image = Image(handLeft!!.getImageURL())
+                                                                        handLeft!!.information.isVisible = true
                                                                 }
                                                         }
                                                 }
@@ -165,7 +177,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         onMouseClicked = EventHandler<MouseEvent>{
                                                 with(CardChooserDialog.showDialog()){
                                                         secondCardImage = image
-                                                        secondCard = card
+                                                        handRight = card
                                                 }
                                                 pane.replaceChildren(secondCardImage!!)
                                                 secondCardImage!!.apply {
@@ -173,12 +185,12 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         fitHeightProperty().bind(hbox.heightProperty().divide(1))
                                                         image = Image(CHOSEN_IMAGE)
                                                         onMouseClicked = EventHandler {
-                                                                if(secondCard!!.information.isVisible){
+                                                                if(handRight!!.information.isVisible){
                                                                         image = Image(CHOSEN_IMAGE)
-                                                                        secondCard!!.information.isVisible = false
+                                                                        handRight!!.information.isVisible = false
                                                                 }else{
-                                                                        image = Image(secondCard!!.getImageURL())
-                                                                        secondCard!!.information.isVisible = true
+                                                                        image = Image(handRight!!.getImageURL())
+                                                                        handRight!!.information.isVisible = true
                                                                 }
                                                         }
                                                 }
@@ -213,10 +225,10 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         prefWidthProperty().bind(vb!!.widthProperty().times(1.5))
                                                         prefHeightProperty().bind(vb!!.heightProperty())
                                                         action {
-                                                                secondCard?:firstCard?:return@action
+                                                                handRight?:handLeft?:return@action
                                                                 DetailForm.show(
-                                                                        firstCard!!,
-                                                                        secondCard!!,
+                                                                        handLeft!!,
+                                                                        handRight!!,
                                                                         tableCards.mapEach { first })
                                                         }
                                                 }
