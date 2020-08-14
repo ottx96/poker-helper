@@ -47,9 +47,15 @@ object SingleHand {
 
     fun straight(cards: List<PokerCard>): Boolean {
         val sortedList = cards.sortedBy { it.number.id }.toMutableList()
-        sortedList.forEach {card ->
-            sortedList.removeAll { it != card && it.number.id == card.number.id }
+        val removedCards = mutableListOf<PokerCard>()
+
+        var i = 0
+        while (i < sortedList.size - 1){
+            if (sortedList[i].number.id == sortedList[i + 1].number.id)
+                removedCards.add(sortedList[++i])
+            i++
         }
+        removedCards.forEach { sortedList.remove(it) }
 
         repeat(sortedList.size - 4){
             val subList = sortedList.subList(it, it + 5)
@@ -100,7 +106,35 @@ object SingleHand {
     }
 
     fun straightFlush(cards: List<PokerCard>): Boolean {
-        return straight(cards) && flush(cards)
+        val sortedList = cards.sortedBy { it.number.id }.toMutableList()
+        val removedCards = mutableListOf<PokerCard>()
+
+        var i = 0
+        while (i < sortedList.size - 1){
+            if (sortedList[i].number.id == sortedList[i + 1].number.id)
+                removedCards.add(sortedList[++i])
+            i++
+        }
+        removedCards.forEach { sortedList.remove(it) }
+
+        repeat(sortedList.size - 4){
+            val subList = sortedList.subList(it, it + 5)
+            var lastCard = subList.first()
+            var passed = true
+            for(pc in subList){
+                if(pc.number.id - lastCard.number.id > 1){
+                    passed = false
+                    break
+                }
+                if(pc.color != lastCard.color && pc.color != removedCards.firstOrNull { it.number.id == pc.number.id }?.color?:false){
+                    passed = false
+                    break
+                }
+                lastCard = pc
+            }
+            if(passed) return true
+        }
+        return false
     }
 
     fun getHighestHand(hand: List<PokerCard>, table: List<PokerCard>): PokerHand {

@@ -60,4 +60,21 @@ class TestCalculationTask {
         assert(PokerHand.STRAIGHT_FLUSH.applies(cards))
     }
 
+    @Test
+    fun `test straight and flush but not straight flush`(){
+        val cards = listOf(
+            PokerCard(Numbers.TWO, Color.KARO),
+            PokerCard(Numbers.TEN, Color.PIK),
+            PokerCard(Numbers.TEN, Color.HERZ),
+            PokerCard(Numbers.BUBE, Color.KARO),
+            PokerCard(Numbers.DAME, Color.KARO),
+            PokerCard(Numbers.KOENIG, Color.KARO),
+            PokerCard(Numbers.ACE, Color.KARO)
+        )
+
+        assert(PokerHand.STRAIGHT.applies(cards))
+        assert(PokerHand.FLUSH.applies(cards))
+        assert(!PokerHand.STRAIGHT_FLUSH.applies(cards))
+    }
+
 }
