@@ -42,45 +42,33 @@ class CardChooserDialog : View("Kartenwahl") {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(
-                    it,
-                    Color.KARO
-                )
-            ))  }
+            Numbers.values().forEach {
+                add(getImageViewByCard(vb, hbox,PokerCard(it,Color.KARO) ))
+            }
         }
         hbox(10) {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(
-                    it,
-                    Color.HERZ
-                )
-            ))  }
+            Numbers.values().forEach {
+                add(getImageViewByCard(vb, hbox,PokerCard(it,Color.HERZ) ))
+            }
         }
         hbox(10) {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(
-                    it,
-                    Color.KREUZ
-                )
-            ))  }
+            Numbers.values().forEach {
+                add(getImageViewByCard(vb, hbox,PokerCard(it,Color.KREUZ) ))
+            }
         }
         hbox(10) {
             val hbox = this
             prefWidthProperty().bind(vb.widthProperty())
             prefHeightProperty().bind(vb.heightProperty().divide(4))
-            Numbers.values().forEach {  add(getImageViewByCard(vb, hbox,
-                PokerCard(
-                    it,
-                    Color.PIK
-                )
-            ))  }
+            Numbers.values().forEach {
+                add(getImageViewByCard( vb, hbox, PokerCard(it,Color.PIK) ))
+            }
         }
     }
 

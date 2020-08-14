@@ -46,17 +46,23 @@ object SingleHand {
     }
 
     fun straight(cards: List<PokerCard>): Boolean {
-        if(cards.size < 5) return false
-        val sorted = cards.sortedBy { it.number.id }
-        for(offset in 0..sorted.size - 5){
-            var straight = true
-            for(i in 1..5){
-                if(sorted[i+offset].number.id - 1 != sorted[i+offset].number.id){
-                    straight = false
+        val sortedList = cards.sortedBy { it.number.id }.toMutableList()
+        sortedList.forEach {card ->
+            sortedList.removeAll { it != card && it.number.id == card.number.id }
+        }
+
+        repeat(sortedList.size - 4){
+            val subList = sortedList.subList(it, it + 5)
+            var lastCard = subList.first()
+            var passed = true
+            for(pc in subList){
+                if(pc.number.id - lastCard.number.id > 1){
+                    passed = false
                     break
                 }
-                if(straight) return true
+                lastCard = pc
             }
+            if(passed) return true
         }
         return false
     }
@@ -94,19 +100,7 @@ object SingleHand {
     }
 
     fun straightFlush(cards: List<PokerCard>): Boolean {
-        if(cards.size < 5) return false
-        val sorted = cards.sortedBy { it.number.id }
-        for(offset in 0..sorted.size - 5){
-            var straightFlush = true
-            for(i in 1..6){
-                if(sorted[i+offset].number.id - 1 != sorted[i+offset].number.id || sorted[i].color != sorted[i+offset].color){
-                    straightFlush = false
-                    break
-                }
-                if(straightFlush) return true
-            }
-        }
-        return false
+        return straight(cards) && flush(cards)
     }
 
     fun getHighestHand(hand: List<PokerCard>, table: List<PokerCard>): PokerHand {

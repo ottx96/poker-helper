@@ -42,4 +42,22 @@ class TestCalculationTask {
         assert(PokerHand.getHighest(cards) != PokerHand.STRAIGHT)
     }
 
+    @Test
+    fun `test straight flush`(){
+        val cards = listOf(
+            PokerCard(Numbers.TWO, Color.PIK),
+            PokerCard(Numbers.THREE, Color.HERZ),
+
+            PokerCard(Numbers.TEN, Color.KARO),
+            PokerCard(Numbers.BUBE, Color.KARO),
+            PokerCard(Numbers.DAME, Color.KARO),
+            PokerCard(Numbers.KOENIG, Color.KARO),
+            PokerCard(Numbers.ACE, Color.KARO)
+        )
+
+        assert(PokerHand.STRAIGHT.applies(cards))
+        assert(PokerHand.FLUSH.applies(cards))
+        assert(PokerHand.STRAIGHT_FLUSH.applies(cards))
+    }
+
 }
