@@ -24,7 +24,6 @@ enum class PokerHand(val desc: String, val weight: Int, private val function: (L
         }
     }
 
-
     fun applies(cards: List<PokerCard>) = function.invoke(cards)
 
     override fun toString() = desc

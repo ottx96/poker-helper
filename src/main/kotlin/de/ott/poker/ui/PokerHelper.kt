@@ -189,17 +189,6 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         label("Maximales Blatt")
                                                         add(Calculations.labelMaxHand)
                                                 }
-                                                button("Details"){
-                                                        prefWidthProperty().bind(vb!!.widthProperty().times(1.5))
-                                                        prefHeightProperty().bind(vb!!.heightProperty())
-                                                        action {
-                                                                handRight?:handLeft?:return@action
-                                                                DetailForm.show(
-                                                                        handLeft!!,
-                                                                        handRight!!,
-                                                                        tableCards.mapEach { first })
-                                                        }
-                                                }
                                         }
                                         right{
                                                 vbox {
