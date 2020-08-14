@@ -67,23 +67,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                                 fitWidthProperty().bind(hbox.widthProperty() / 7)
                                                                         })
                                                                 }
-
-                                                                // display current hand
-                                                                val currHand = CurrentHandTask(tableCards.mapEach { first }.toMutableList().apply {
-                                                                        add(handLeft!!)
-                                                                        add(handRight!!)
-                                                                })
-                                                                currHand.setOnSucceeded {
-                                                                        Calculations.lbl_currentHand.text = currHand.get().desc
-                                                                }
-                                                                Calculations.threads.execute(currHand)
-
-                                                                // display max hand possible
-                                                                val maxHand = MaxHandTask( listOf(handLeft!!, handRight!!), tableCards.mapEach { first })
-                                                                maxHand.setOnSucceeded {
-                                                                        Calculations.lbl_maxHand.text = maxHand.get().desc
-                                                                }
-                                                                Calculations.threads.execute(maxHand)
+                                                                Calculations.calculateHands(handLeft, handRight, tableCards)
                                                         }
                                                 )
                                         }
@@ -122,23 +106,6 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                         firstCardImage = image
                                                         handLeft = card
                                                 }
-                                                // display current hand
-                                                val currHand = CurrentHandTask(tableCards.mapEach { first }.toMutableList().apply {
-                                                        add(handLeft!!)
-                                                        add(handRight!!)
-                                                })
-                                                currHand.setOnSucceeded {
-                                                        Calculations.lbl_currentHand.text = currHand.get().desc
-                                                }
-                                                Calculations.threads.execute(currHand)
-
-                                                // display max hand possible
-                                                val maxHand = MaxHandTask( listOf(handLeft!!, handRight!!), tableCards.mapEach { first })
-                                                maxHand.setOnSucceeded {
-                                                        Calculations.lbl_maxHand.text = maxHand.get().desc
-                                                }
-                                                Calculations.threads.execute(maxHand)
-
                                                 pane.replaceChildren(firstCardImage!!)
                                                 firstCardImage!!.apply {
                                                         fitWidthProperty().bind(vb.widthProperty().divide(2))
@@ -214,13 +181,13 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         hbox(40){
                                                 vbox(2){
                                                         label("Derzeitiges Blatt")
-                                                        add(Calculations.lbl_currentHand)
+                                                        add(Calculations.labelCurrentHand)
                                                 }
                                                 var vb: VBox? = null
                                                 vbox(2){
                                                         vb = this
                                                         label("Maximales Blatt")
-                                                        add(Calculations.lbl_maxHand)
+                                                        add(Calculations.labelMaxHand)
                                                 }
                                                 button("Details"){
                                                         prefWidthProperty().bind(vb!!.widthProperty().times(1.5))
