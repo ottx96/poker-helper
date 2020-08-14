@@ -1,4 +1,4 @@
-package de.ott.poker.data
+package de.ott.poker.calc
 
 import javafx.scene.control.Label
 import java.util.concurrent.ExecutorService

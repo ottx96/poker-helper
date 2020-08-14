@@ -2,8 +2,8 @@ package de.ott.poker.ui
 
 import de.ott.poker.data.PokerCard
 import de.ott.poker.data.PokerDeck
+import de.ott.poker.data.container.CalculationContainer
 import de.ott.poker.data.enumerations.PokerHand
-import de.ott.poker.impl.PokerHandCalcContainer
 import javafx.collections.ObservableList
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -37,12 +37,12 @@ class DetailForm : View("Details") {
         }
     }
 
-    private val enemyProbs: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
-    private val ownProbs: ObservableList<PokerHandCalcContainer> = LinkedList<PokerHandCalcContainer>().asObservable()
+    private val enemyProbs: ObservableList<CalculationContainer> = LinkedList<CalculationContainer>().asObservable()
+    private val ownProbs: ObservableList<CalculationContainer> = LinkedList<CalculationContainer>().asObservable()
 
     init {
         PokerHand.values().forEach {
-            enemyProbs.add(PokerHandCalcContainer(it))
+            enemyProbs.add(CalculationContainer(it))
         }
 
         PokerDeck.reset()
@@ -120,12 +120,12 @@ class DetailForm : View("Details") {
                 }
 
                 tableview(enemyProbs) {
-                    readonlyColumn("Bezeichnung", PokerHandCalcContainer::desc)
-                    readonlyColumn("Wahrscheinlichkeit", PokerHandCalcContainer::probability)
+                    readonlyColumn("Bezeichnung", CalculationContainer::desc)
+                    readonlyColumn("Wahrscheinlichkeit", CalculationContainer::probability)
 //                    readonlyColumn("Wahrscheinlichkeit (%)", PokerHandCalcContainer::probability).useProgressBar
-                    addColumnInternal(TableColumn<PokerHandCalcContainer, Double>("Percentage").apply {
+                    addColumnInternal(TableColumn<CalculationContainer, Double>("Percentage").apply {
                         cellValueFactory = PropertyValueFactory("probability")
-                        cellFactory = ProgressBarTableCell.forTableColumn<PokerHandCalcContainer>()
+                        cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
                     })
 
                 }

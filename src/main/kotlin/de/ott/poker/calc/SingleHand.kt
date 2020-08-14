@@ -1,5 +1,6 @@
-package de.ott.poker.data
+package de.ott.poker.calc
 
+import de.ott.poker.data.PokerCard
 import de.ott.poker.data.enumerations.Color
 import de.ott.poker.data.enumerations.Numbers
 import de.ott.poker.data.enumerations.PokerHand

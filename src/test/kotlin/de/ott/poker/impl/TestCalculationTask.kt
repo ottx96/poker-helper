@@ -7,7 +7,7 @@ import de.ott.poker.data.enumerations.PokerHand
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class TestSingleHandCalc {
+class TestCalculationTask {
 
     private var deck = PokerDeck.reset()
 

@@ -1,7 +1,7 @@
 package de.ott.poker.data.enumerations
 
+import de.ott.poker.calc.SingleHand
 import de.ott.poker.data.PokerCard
-import de.ott.poker.data.SingleHand
 
 enum class PokerHand(val desc: String, val weight: Int, private val function: (List<PokerCard>) -> Boolean){
     STRAIGHT_FLUSH("Straight Flush", 8, SingleHand::straightFlush),

@@ -1,6 +1,6 @@
 package de.ott.poker.ui
 
-import de.ott.poker.data.Calculations
+import de.ott.poker.calc.Calculations
 import de.ott.poker.data.PokerCard
 import de.ott.poker.calc.task.CurrentHandTask
 import de.ott.poker.calc.task.MaxHandTask
