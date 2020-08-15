@@ -5,7 +5,6 @@ import de.ott.poker.data.PokerCard
 import de.ott.poker.data.container.CalculationContainer
 import javafx.event.EventHandler
 import javafx.geometry.Pos
-import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.ProgressBarTableCell
 import javafx.scene.control.cell.PropertyValueFactory
@@ -127,6 +126,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         }
                                 }
                                 add(firstCardImage!!)
+                                Calculations.calculateHands(handLeft, handRight, tableCards)
                         }
                         pane {
                                 val pane = this
@@ -170,6 +170,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         }
                                 }
                                 add(secondCardImage!!)
+                                Calculations.calculateHands(handLeft, handRight, tableCards)
                         }
                         borderpane {
                                 prefWidthProperty().bind(hbox.widthProperty().minus((hbox.children[0] as Pane).widthProperty()).minus((hbox.children[1] as Pane).widthProperty()).minus(50))
@@ -179,56 +180,53 @@ class PokerHelper: View("Poker Helper by Ott") {
                                 }
                                 center{
                                         splitpane{
-                                                val x = listOf(CalculationContainer(), CalculationContainer()).asObservable()
                                                 vbox(3){
                                                         val vb = this
-                                                        val x = listOf(CalculationContainer(), CalculationContainer()).asObservable()
                                                         val l = label("Gegnerische Wahrscheinlichkeiten"){
                                                                 prefWidthProperty().bind(vb.widthProperty())
                                                                 alignment = Pos.CENTER
                                                         }
-                                                        tableview(x){
-                                                                val tv = this
+                                                        tableview(Calculations.enemyChancesContainers){
+                                                                Calculations.enemyChancesTable = this
                                                                 style { prefHeightProperty().bind(vb.heightProperty().minus(l.heightProperty())) }
 
                                                                 val progressCol = TableColumn<CalculationContainer, Double>("Probability").apply{
                                                                         cellValueFactory = PropertyValueFactory<CalculationContainer, Double>("probability")
                                                                         cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
 
-                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                        prefWidthProperty().bind(Calculations.enemyChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                                 column("PokerHand", CalculationContainer::hand){
-                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                        prefWidthProperty().bind(Calculations.enemyChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                                 columns.add(progressCol)
                                                                 column("Probability", CalculationContainer::probability){
-                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                        prefWidthProperty().bind(Calculations.enemyChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                         }
                                                 }
 
                                                 vbox(3){
                                                         val vb = this
-                                                        val x = listOf(CalculationContainer(), CalculationContainer()).asObservable()
                                                         val l = label("Eigene Wahrscheinlichkeiten"){
                                                                 prefWidthProperty().bind(vb.widthProperty())
                                                                 alignment = Pos.CENTER
                                                         }
-                                                        tableview(x){
-                                                                val tv = this
+                                                        tableview(Calculations.ownChancesContainers){
+                                                                Calculations.ownChancesTable = this
                                                                 style { prefHeightProperty().bind(vb.heightProperty().minus(l.heightProperty())) }
 
                                                                 val progressCol = TableColumn<CalculationContainer, Double>("Probability").apply{
                                                                         cellValueFactory = PropertyValueFactory<CalculationContainer, Double>("probability")
                                                                         cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
-                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                        prefWidthProperty().bind(Calculations.ownChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                                 column("PokerHand", CalculationContainer::hand){
-                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                        prefWidthProperty().bind(Calculations.ownChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                                 columns.add(progressCol)
                                                                 column("Probability", CalculationContainer::probability){
-                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                        prefWidthProperty().bind(Calculations.ownChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                         }
                                                 }

@@ -23,7 +23,6 @@ class MaxHandTask(private val hand: List<PokerCard>, private val table: List<Pok
                 val currentCards = mutableListOf(it).apply { addAll(placedCards) }
                 val curr = PokerHand.getHighest( currentCards )
                 if(curr.weight > result.weight) {
-                    println("$curr > $result")
                     result = curr
                 }
             }
@@ -34,14 +33,12 @@ class MaxHandTask(private val hand: List<PokerCard>, private val table: List<Pok
                     val currentCards = mutableListOf(c1, c2).apply { addAll(placedCards) }
                     val curr = PokerHand.getHighest( currentCards )
                     if(curr.weight > result.weight){
-                        println("$curr > $result")
                         result = curr
                     }
                 }
             }
         }
 
-        println("returning $result")
         return result
     }
 
