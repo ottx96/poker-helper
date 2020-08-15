@@ -15,7 +15,6 @@ class OwnChancesTask(val container: CalculationContainer = CalculationContainer(
 
         container.probability = -1.0
 
-        // Nur, wenn die ersten 3 Karten liegen
         if( cards.size == 7 ) {
             if(container.hand == PokerHand.getHighest(cards))
                 container.probability = 1.0
@@ -24,33 +23,20 @@ class OwnChancesTask(val container: CalculationContainer = CalculationContainer(
 
         var count = 0.0
         var matches = 0.0
-        if(cards.size == 6){
-            deck.forEach {
-                val allCards = mutableListOf(it).apply { addAll(cards) }
-                if(container.hand.applies(allCards))
-                    matches++
-
-                count ++
-            }
-        }
-
-        else if(cards.size == 5){
-            deck.forEach { c1 ->
-                deck.filter { it != c1 }.forEach { c2 ->
-                    val allCards = mutableListOf(c1, c2).apply { addAll(cards) }
+        when (cards.size) {
+            6 -> {
+                deck.forEach {
+                    val allCards = mutableListOf(it).apply { addAll(cards) }
                     if(container.hand.applies(allCards))
                         matches++
 
                     count ++
                 }
             }
-        }
-
-        else if(cards.size == 4){
-            deck.forEach { c1 ->
-                deck.filter { it != c1 }.forEach { c2 ->
-                    deck.filter { it != c1 && it != c2 }.forEach { c3 ->
-                        val allCards = mutableListOf(c1, c2, c3).apply { addAll(cards) }
+            5 -> {
+                deck.forEach { c1 ->
+                    deck.filter { it != c1 }.forEach { c2 ->
+                        val allCards = mutableListOf(c1, c2).apply { addAll(cards) }
                         if(container.hand.applies(allCards))
                             matches++
 
@@ -58,14 +44,11 @@ class OwnChancesTask(val container: CalculationContainer = CalculationContainer(
                     }
                 }
             }
-        }
-
-        else if(cards.size == 3){
-            deck.forEach { c1 ->
-                deck.filter { it != c1 }.forEach { c2 ->
-                    deck.filter { it != c1 && it != c2 }.forEach { c3 ->
-                        deck.filter { !listOf(c1, c2, c3).contains(it) }.forEach { c4 ->
-                            val allCards = mutableListOf(c1, c2, c3, c4).apply { addAll(cards) }
+            4 -> {
+                deck.forEach { c1 ->
+                    deck.filter { it != c1 }.forEach { c2 ->
+                        deck.filter { it != c1 && it != c2 }.forEach { c3 ->
+                            val allCards = mutableListOf(c1, c2, c3).apply { addAll(cards) }
                             if(container.hand.applies(allCards))
                                 matches++
 
@@ -74,15 +57,12 @@ class OwnChancesTask(val container: CalculationContainer = CalculationContainer(
                     }
                 }
             }
-        }
-
-        else if(cards.size == 2){
-            deck.forEach { c1 ->
-                deck.filter { it != c1 }.forEach { c2 ->
-                    deck.filter { it != c1 && it != c2 }.forEach { c3 ->
-                        deck.filter { !listOf(c1, c2, c3).contains(it) }.forEach { c4 ->
-                            deck.filter { !listOf(c1, c2, c3 ,c4).contains(it) }.forEach { c5 ->
-                                val allCards = mutableListOf(c1, c2, c3, c4, c5).apply { addAll(cards) }
+            3 -> {
+                deck.forEach { c1 ->
+                    deck.filter { it != c1 }.forEach { c2 ->
+                        deck.filter { it != c1 && it != c2 }.forEach { c3 ->
+                            deck.filter { !listOf(c1, c2, c3).contains(it) }.forEach { c4 ->
+                                val allCards = mutableListOf(c1, c2, c3, c4).apply { addAll(cards) }
                                 if(container.hand.applies(allCards))
                                     matches++
 
@@ -92,20 +72,36 @@ class OwnChancesTask(val container: CalculationContainer = CalculationContainer(
                     }
                 }
             }
-        }
-
-        else if(cards.size == 1){
-            deck.forEach { c1 ->
-                deck.filter { it != c1 }.forEach { c2 ->
-                    deck.filter { it != c1 && it != c2 }.forEach { c3 ->
-                        deck.filter { !listOf(c1, c2, c3).contains(it) }.forEach { c4 ->
-                            deck.filter { !listOf(c1, c2, c3 ,c4).contains(it) }.forEach { c5 ->
-                                deck.filter { !listOf(c1,c2,c3,c4,c5).contains(it) }.forEach { c6 ->
-                                    val allCards = mutableListOf(c1, c2, c3, c4, c5, c6).apply { addAll(cards) }
+            2 -> {
+                deck.forEach { c1 ->
+                    deck.filter { it != c1 }.forEach { c2 ->
+                        deck.filter { it != c1 && it != c2 }.forEach { c3 ->
+                            deck.filter { !listOf(c1, c2, c3).contains(it) }.forEach { c4 ->
+                                deck.filter { !listOf(c1, c2, c3 ,c4).contains(it) }.forEach { c5 ->
+                                    val allCards = mutableListOf(c1, c2, c3, c4, c5).apply { addAll(cards) }
                                     if(container.hand.applies(allCards))
                                         matches++
 
                                     count ++
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            1 -> {
+                deck.forEach { c1 ->
+                    deck.filter { it != c1 }.forEach { c2 ->
+                        deck.filter { it != c1 && it != c2 }.forEach { c3 ->
+                            deck.filter { !listOf(c1, c2, c3).contains(it) }.forEach { c4 ->
+                                deck.filter { !listOf(c1, c2, c3 ,c4).contains(it) }.forEach { c5 ->
+                                    deck.filter { !listOf(c1,c2,c3,c4,c5).contains(it) }.forEach { c6 ->
+                                        val allCards = mutableListOf(c1, c2, c3, c4, c5, c6).apply { addAll(cards) }
+                                        if(container.hand.applies(allCards))
+                                            matches++
+
+                                        count ++
+                                    }
                                 }
                             }
                         }

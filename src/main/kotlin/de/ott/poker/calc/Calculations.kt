@@ -1,6 +1,7 @@
 package de.ott.poker.calc
 
 import de.ott.poker.calc.task.CurrentHandTask
+import de.ott.poker.calc.task.EnemyChancesTask
 import de.ott.poker.calc.task.MaxHandTask
 import de.ott.poker.calc.task.OwnChancesTask
 import de.ott.poker.data.PokerCard
@@ -58,6 +59,11 @@ object Calculations {
                         add(handLeft)
                         add(handRight)
                     }))
+            }
+
+            // update table (enemy chances)
+            enemyChancesContainers.forEach { threads.execute(
+                    EnemyChancesTask(it, tableCards.mapEach { first }, listOf(handLeft, handRight)))
             }
 
         }
