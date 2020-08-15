@@ -10,6 +10,8 @@ import java.lang.Exception
 
 class OwnChancesTask(val container: CalculationContainer = CalculationContainer(), private val cards: List<PokerCard>): Task<CalculationContainer>() {
 
+    internal fun testCall() = call()
+
     override fun call(): CalculationContainer {
         val deck = PokerDeck.createParallelDeck()
         deck.removeAll(cards)
@@ -113,7 +115,7 @@ class OwnChancesTask(val container: CalculationContainer = CalculationContainer(
 
         container.probability = matches / count
 
-        Calculations.ownChancesTable!!.refresh()
+        Calculations.ownChancesTable?.refresh()
         return container
     }
 
