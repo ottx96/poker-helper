@@ -15,7 +15,6 @@ class EnemyChancesTask(val container: CalculationContainer = CalculationContaine
         deck.removeAll(handCards)
 
         container.probability = -1.0
-        println("calc enemy")
 
         var count = 0.0
         var matches = 0.0
