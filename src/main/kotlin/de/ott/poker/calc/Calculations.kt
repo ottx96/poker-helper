@@ -16,18 +16,18 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 object Calculations {
-    val threads: ExecutorService = Executors.newCachedThreadPool()
+    private val threads: ExecutorService = Executors.newCachedThreadPool()
 
-    val labelCurrentHand = Label("N/A (unknown)")
-    val labelMaxHand = Label("N/A (unknown)")
+    val labelCurrentHand by lazy { Label("N/A (unknown)") }
+    val labelMaxHand by lazy { Label("N/A (unknown)") }
 
     val ownChancesContainers = observableListOf<CalculationContainer>()
     val enemyChancesContainers = observableListOf<CalculationContainer>()
 
     init {
         PokerHand.values().reversed().forEach {
-            ownChancesContainers.add(CalculationContainer(it, 0.0))
-            enemyChancesContainers.add(CalculationContainer(it, 0.0))
+            ownChancesContainers.add(CalculationContainer(it, -1.0))
+            enemyChancesContainers.add(CalculationContainer(it, -1.0))
         }
     }
 

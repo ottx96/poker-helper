@@ -106,33 +106,12 @@ object SingleHand {
     }
 
     fun straightFlush(cards: List<PokerCard>): Boolean {
-        val sortedList = cards.sortedBy { it.number.id }.toMutableList()
-        val removedCards = mutableListOf<PokerCard>()
-
-        var i = 0
-        while (i < sortedList.size - 1){
-            if (sortedList[i].number.id == sortedList[i + 1].number.id)
-                removedCards.add(sortedList[++i])
-            i++
-        }
-        removedCards.forEach { sortedList.remove(it) }
-
-        repeat(sortedList.size - 4){
-            val subList = sortedList.subList(it, it + 5)
-            var lastCard = subList.first()
-            var passed = true
-            for(pc in subList){
-                if(pc.number.id - lastCard.number.id > 1){
-                    passed = false
-                    break
-                }
-                if(pc.color != lastCard.color && pc.color != removedCards.firstOrNull { it.number.id == pc.number.id }?.color?:false){
-                    passed = false
-                    break
-                }
-                lastCard = pc
+        cards.forEach { startCard ->
+            var currentCard = startCard
+            repeat(4){
+                currentCard = cards.firstOrNull { it.number.id - currentCard.number.id == 1 && it.color == currentCard.color }?:return@forEach
             }
-            if(passed) return true
+            return true
         }
         return false
     }
