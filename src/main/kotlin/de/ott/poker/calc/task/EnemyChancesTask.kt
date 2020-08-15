@@ -4,10 +4,9 @@ import de.ott.poker.calc.Calculations
 import de.ott.poker.data.PokerCard
 import de.ott.poker.data.PokerDeck
 import de.ott.poker.data.container.CalculationContainer
-import de.ott.poker.data.enumerations.PokerHand
 import javafx.concurrent.Task
 
-class EnemyChancesTask(val container: CalculationContainer = CalculationContainer(), private val cards: List<PokerCard>, private val handCards: List<PokerCard>): Task<CalculationContainer>() {
+class EnemyChancesTask(private val container: CalculationContainer = CalculationContainer(), private val cards: List<PokerCard>, private val handCards: List<PokerCard>): Task<CalculationContainer>() {
 
     override fun call(): CalculationContainer {
         val deck = PokerDeck.createParallelDeck()

@@ -6,9 +6,8 @@ import de.ott.poker.data.PokerDeck
 import de.ott.poker.data.container.CalculationContainer
 import de.ott.poker.data.enumerations.PokerHand
 import javafx.concurrent.Task
-import java.lang.Exception
 
-class OwnChancesTask(val container: CalculationContainer = CalculationContainer(), private val cards: List<PokerCard>): Task<CalculationContainer>() {
+class OwnChancesTask(private val container: CalculationContainer = CalculationContainer(), private val cards: List<PokerCard>): Task<CalculationContainer>() {
 
     internal fun testCall() = call()
 
