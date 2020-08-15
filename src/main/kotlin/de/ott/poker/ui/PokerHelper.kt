@@ -2,19 +2,22 @@ package de.ott.poker.ui
 
 import de.ott.poker.calc.Calculations
 import de.ott.poker.data.PokerCard
-import de.ott.poker.calc.task.CurrentHandTask
-import de.ott.poker.calc.task.MaxHandTask
+import de.ott.poker.data.container.CalculationContainer
 import javafx.event.EventHandler
 import javafx.geometry.Pos
+import javafx.scene.control.TableCell
+import javafx.scene.control.TableColumn
+import javafx.scene.control.cell.ProgressBarTableCell
+import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.effect.BlendMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Pane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import tornadofx.*
 import java.util.*
+
 
 class PokerHelper: View("Poker Helper by Ott") {
 
@@ -172,33 +175,77 @@ class PokerHelper: View("Poker Helper by Ott") {
                                 prefWidthProperty().bind(hbox.widthProperty().minus((hbox.children[0] as Pane).widthProperty()).minus((hbox.children[1] as Pane).widthProperty()).minus(50))
                                 style{
                                         alignment = Pos.CENTER
-                                        backgroundColor += Color.BEIGE
+                                        backgroundColor += Color.GHOSTWHITE
                                 }
-                                left{
+                                center{
+                                        splitpane{
+                                                val x = listOf(CalculationContainer(), CalculationContainer()).asObservable()
+                                                vbox(3){
+                                                        val vb = this
+                                                        val x = listOf(CalculationContainer(), CalculationContainer()).asObservable()
+                                                        val l = label("Gegnerische Wahrscheinlichkeiten"){
+                                                                prefWidthProperty().bind(vb.widthProperty())
+                                                                alignment = Pos.CENTER
+                                                        }
+                                                        tableview(x){
+                                                                val tv = this
+                                                                style { prefHeightProperty().bind(vb.heightProperty().minus(l.heightProperty())) }
 
-                                }
-                                bottom {
-                                        hbox(40){
-                                                vbox(2){
-                                                        label("Derzeitiges Blatt")
-                                                        add(Calculations.labelCurrentHand)
+                                                                val progressCol = TableColumn<CalculationContainer, Double>("Probability").apply{
+                                                                        cellValueFactory = PropertyValueFactory<CalculationContainer, Double>("probability")
+                                                                        cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
+
+                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                }
+                                                                column("PokerHand", CalculationContainer::hand){
+                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                }
+                                                                columns.add(progressCol)
+                                                                column("Probability", CalculationContainer::probability){
+                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                }
+                                                        }
                                                 }
-                                                var vb: VBox? = null
-                                                vbox(2){
-                                                        vb = this
-                                                        label("Maximales Blatt")
-                                                        add(Calculations.labelMaxHand)
+
+                                                vbox(3){
+                                                        val vb = this
+                                                        val x = listOf(CalculationContainer(), CalculationContainer()).asObservable()
+                                                        val l = label("Eigene Wahrscheinlichkeiten"){
+                                                                prefWidthProperty().bind(vb.widthProperty())
+                                                                alignment = Pos.CENTER
+                                                        }
+                                                        tableview(x){
+                                                                val tv = this
+                                                                style { prefHeightProperty().bind(vb.heightProperty().minus(l.heightProperty())) }
+
+                                                                val progressCol = TableColumn<CalculationContainer, Double>("Probability").apply{
+                                                                        cellValueFactory = PropertyValueFactory<CalculationContainer, Double>("probability")
+                                                                        cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
+                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                }
+                                                                column("PokerHand", CalculationContainer::hand){
+                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                }
+                                                                columns.add(progressCol)
+                                                                column("Probability", CalculationContainer::probability){
+                                                                        prefWidthProperty().bind(tv.widthProperty().divide(3))
+                                                                }
+                                                        }
                                                 }
                                         }
-                                        right{
-                                                vbox {
-                                                        imageview {
-                                                                isPreserveRatio = true
-                                                                image = Image("de.ott.poker.controls/PinClipart.com_newspaper-ad-clipart_2032112.png")
-                                                                fitWidthProperty().bind(hbox.widthProperty().divide(15))
-                                                                fitHeightProperty().bind(hbox.heightProperty().divide(1))
-                                                                onMouseClicked = EventHandler {
-                                                                        close()
+
+                                }
+                                right {
+                                        borderpane {
+                                                bottom{
+                                                        vbox(40){
+                                                                vbox(2){
+                                                                        label("Derzeitiges Blatt")
+                                                                        add(Calculations.labelCurrentHand)
+                                                                }
+                                                                vbox(2){
+                                                                        label("Maximales Blatt")
+                                                                        add(Calculations.labelMaxHand)
                                                                 }
                                                         }
                                                 }
