@@ -59,19 +59,23 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                 blendMode = null
                                         }
                                         onMouseClicked = EventHandler<MouseEvent>{
-                                                hbox.add(
-                                                        pane {
-                                                                CardChooserDialog.showDialog()
-                                                                        .apply {
-                                                                        tableCards.add( card to image )
-                                                                        add(image.apply {
-                                                                                fitHeightProperty().bind(hbox.heightProperty())
-                                                                                fitWidthProperty().bind(hbox.widthProperty() / 7)
-                                                                        })
+                                                CardChooserDialog.showDialog( if(tableCards.size == 0) 3 else 1 )
+                                                        .apply {
+                                                                result.forEach { (img, card) ->
+                                                                        hbox.add(
+                                                                                pane {
+                                                                                        tableCards.add( card to img )
+                                                                                        add(img.apply {
+                                                                                                fitHeightProperty().bind(hbox.heightProperty())
+                                                                                                fitWidthProperty().bind(hbox.widthProperty().divide(7))
+                                                                                        })
+
+                                                                                }
+                                                                        )
+
                                                                 }
-                                                                Calculations.calculateHands(handLeft, handRight, tableCards)
                                                         }
-                                                )
+                                                Calculations.calculateHands(handLeft, handRight, tableCards)
                                         }
                                 }
                         }
@@ -84,12 +88,62 @@ class PokerHelper: View("Poker Helper by Ott") {
                         alignment = Pos.BOTTOM_LEFT
                         prefHeightProperty().bind(vb.heightProperty().divide(2.5))
                         val hbox = this
-                        pane {
-                                val pane = this
+
+                        val paneLeftHand = pane {}
+                        val paneRightHand = pane {}
+
+                        val initialHandCardEventHandler = EventHandler<MouseEvent> {
+                                with(CardChooserDialog.showDialog(2)) {
+                                        result.forEach { (img, card) ->
+                                                println(card)
+                                                if (handLeft == null) {
+                                                        println("setting left to: $card")
+                                                        handLeft = card
+                                                        firstCardImage = img
+                                                        paneLeftHand.replaceChildren(firstCardImage!!)
+                                                        firstCardImage!!.apply {
+                                                                fitWidthProperty().bind(vb.widthProperty().divide(2))
+                                                                fitHeightProperty().bind(hbox.heightProperty().divide(1))
+                                                                image = Image(CHOSEN_IMAGE)
+                                                                onMouseClicked = EventHandler {
+                                                                        if (handLeft!!.information.isVisible) {
+                                                                                image = Image(CHOSEN_IMAGE)
+                                                                                handLeft!!.information.isVisible = false
+                                                                        } else {
+                                                                                image = Image(handLeft!!.getImageURL())
+                                                                                handLeft!!.information.isVisible = true
+                                                                        }
+                                                                }
+                                                        }
+                                                } else if (handRight == null) {
+                                                        println("setting right to: $card")
+                                                        handRight = card
+                                                        secondCardImage = img
+                                                        paneRightHand.replaceChildren(secondCardImage!!)
+                                                        secondCardImage!!.apply {
+                                                                fitWidthProperty().bind(vb.widthProperty().divide(2))
+                                                                fitHeightProperty().bind(hbox.heightProperty().divide(1))
+                                                                image = Image(CHOSEN_IMAGE)
+                                                                onMouseClicked = EventHandler {
+                                                                        if (handRight!!.information.isVisible) {
+                                                                                image = Image(CHOSEN_IMAGE)
+                                                                                handRight!!.information.isVisible = false
+                                                                        } else {
+                                                                                image = Image(handRight!!.getImageURL())
+                                                                                handRight!!.information.isVisible = true
+                                                                        }
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
+
+                        paneLeftHand.apply {
                                 firstCardImage = imageview {
                                         image = Image("de.ott.poker.cards/gray_back.png")
 
-                                        style{
+                                        style {
                                                 alignment = Pos.BOTTOM_CENTER
                                         }
 
@@ -103,37 +157,15 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         onMouseExited = EventHandler {
                                                 blendMode = null
                                         }
-                                        onMouseClicked = EventHandler<MouseEvent>{
-                                                with(CardChooserDialog.showDialog()){
-                                                        firstCardImage = image
-                                                        handLeft = card
-                                                }
-                                                pane.replaceChildren(firstCardImage!!)
-                                                firstCardImage!!.apply {
-                                                        fitWidthProperty().bind(vb.widthProperty().divide(2))
-                                                        fitHeightProperty().bind(hbox.heightProperty().divide(1))
-                                                        image = Image(CHOSEN_IMAGE)
-                                                        onMouseClicked = EventHandler {
-                                                                if(handLeft!!.information.isVisible){
-                                                                        image = Image(CHOSEN_IMAGE)
-                                                                        handLeft!!.information.isVisible = false
-                                                                }else{
-                                                                        image = Image(handLeft!!.getImageURL())
-                                                                        handLeft!!.information.isVisible = true
-                                                                }
-                                                        }
-                                                }
-                                        }
+                                        onMouseClicked = initialHandCardEventHandler
                                 }
                                 add(firstCardImage!!)
-                                Calculations.calculateHands(handLeft, handRight, tableCards)
                         }
-                        pane {
-                                val pane = this
+                        paneRightHand.apply {
                                 secondCardImage = imageview {
                                         image = Image("de.ott.poker.cards/gray_back.png")
 
-                                        style{
+                                        style {
                                                 alignment = Pos.BOTTOM_CENTER
                                         }
 
@@ -147,31 +179,11 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         onMouseExited = EventHandler {
                                                 blendMode = null
                                         }
-                                        onMouseClicked = EventHandler<MouseEvent>{
-                                                with(CardChooserDialog.showDialog()){
-                                                        secondCardImage = image
-                                                        handRight = card
-                                                }
-                                                pane.replaceChildren(secondCardImage!!)
-                                                secondCardImage!!.apply {
-                                                        fitWidthProperty().bind(vb.widthProperty().divide(2))
-                                                        fitHeightProperty().bind(hbox.heightProperty().divide(1))
-                                                        image = Image(CHOSEN_IMAGE)
-                                                        onMouseClicked = EventHandler {
-                                                                if(handRight!!.information.isVisible){
-                                                                        image = Image(CHOSEN_IMAGE)
-                                                                        handRight!!.information.isVisible = false
-                                                                }else{
-                                                                        image = Image(handRight!!.getImageURL())
-                                                                        handRight!!.information.isVisible = true
-                                                                }
-                                                        }
-                                                }
-                                        }
+                                        onMouseClicked = initialHandCardEventHandler
                                 }
                                 add(secondCardImage!!)
-                                Calculations.calculateHands(handLeft, handRight, tableCards)
                         }
+
                         borderpane {
                                 prefWidthProperty().bind(hbox.widthProperty().minus((hbox.children[0] as Pane).widthProperty()).minus((hbox.children[1] as Pane).widthProperty()).minus(50))
                                 style{

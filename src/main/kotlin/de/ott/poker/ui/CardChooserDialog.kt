@@ -15,23 +15,23 @@ import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
-data class CardChooserDialogResult(val image: ImageView, val card: PokerCard)
+data class CardChooserDialogResult(val result: Map<ImageView, PokerCard>)
 
-class CardChooserDialog : View("Kartenwahl") {
+class CardChooserDialog(private val amount: Int) : View("Kartenwahl") {
+
+    init{
+        result.clear()
+    }
 
     companion object{
-        private var resultImage: ImageView? = null
-        private var resultCard: PokerCard? = null
+        private var result = mutableMapOf<ImageView, PokerCard>()
 
-        fun showDialog(): CardChooserDialogResult {
+        fun showDialog(amount: Int = 1): CardChooserDialogResult {
             Stage().apply {
                 isMaximized = true
-                scene = Scene(CardChooserDialog().root)
+                scene = Scene(CardChooserDialog(amount).root)
             }.showAndWait()
-            return CardChooserDialogResult(
-                resultImage!!,
-                resultCard!!
-            )
+            return CardChooserDialogResult(result)
         }
     }
 
@@ -85,12 +85,15 @@ class CardChooserDialog : View("Kartenwahl") {
                     blendMode = BlendMode.SCREEN
                 }
                 onMouseExited = EventHandler {
-                    blendMode = null
+                    if(result[this] == null) blendMode = null
                 }
                 onMouseClicked = EventHandler<MouseEvent>{
-                    resultImage = this
-                    resultCard = card
-                    close()
+                    if(result[this] != null){
+                        result.remove(this)
+                    } else{
+                        result[this] = card
+                    }
+                    if(result.size >= amount) close()
                 }
             }
         }
