@@ -3,6 +3,7 @@ package de.ott.poker.ui
 import de.ott.poker.calc.Calculations
 import de.ott.poker.data.PokerCard
 import de.ott.poker.data.container.CalculationContainer
+import de.ott.poker.international.Translator
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.control.TableColumn
@@ -194,7 +195,7 @@ class PokerHelper: View("Poker Helper by Ott") {
                                         splitpane{
                                                 vbox(3){
                                                         val vb = this
-                                                        val l = label("Gegnerische Wahrscheinlichkeiten"){
+                                                        val l = label(Translator.get("probability.opponent")){
                                                                 prefWidthProperty().bind(vb.widthProperty())
                                                                 alignment = Pos.CENTER
                                                         }
@@ -202,17 +203,17 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                 Calculations.enemyChancesTable = this
                                                                 style { prefHeightProperty().bind(vb.heightProperty().minus(l.heightProperty())) }
 
-                                                                val progressCol = TableColumn<CalculationContainer, Double>("Probability").apply{
+                                                                val progressCol = TableColumn<CalculationContainer, Double>(Translator.get("probability")).apply{
                                                                         cellValueFactory = PropertyValueFactory<CalculationContainer, Double>("probability")
                                                                         cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
 
                                                                         prefWidthProperty().bind(Calculations.enemyChancesTable!!.widthProperty().divide(3))
                                                                 }
-                                                                column("PokerHand", CalculationContainer::hand){
+                                                                column(Translator.get("poker.hand"), CalculationContainer::hand){
                                                                         prefWidthProperty().bind(Calculations.enemyChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                                 columns.add(progressCol)
-                                                                column("Probability", CalculationContainer::probability){
+                                                                column(Translator.get("probability"), CalculationContainer::probability){
                                                                         prefWidthProperty().bind(Calculations.enemyChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                         }
@@ -220,7 +221,7 @@ class PokerHelper: View("Poker Helper by Ott") {
 
                                                 vbox(3){
                                                         val vb = this
-                                                        val l = label("Eigene Wahrscheinlichkeiten"){
+                                                        val l = label(Translator.get("probability.own")){
                                                                 prefWidthProperty().bind(vb.widthProperty())
                                                                 alignment = Pos.CENTER
                                                         }
@@ -228,16 +229,16 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                                 Calculations.ownChancesTable = this
                                                                 style { prefHeightProperty().bind(vb.heightProperty().minus(l.heightProperty())) }
 
-                                                                val progressCol = TableColumn<CalculationContainer, Double>("Probability").apply{
+                                                                val progressCol = TableColumn<CalculationContainer, Double>(Translator.get("probability")).apply{
                                                                         cellValueFactory = PropertyValueFactory<CalculationContainer, Double>("probability")
                                                                         cellFactory = ProgressBarTableCell.forTableColumn<CalculationContainer>()
                                                                         prefWidthProperty().bind(Calculations.ownChancesTable!!.widthProperty().divide(3))
                                                                 }
-                                                                column("PokerHand", CalculationContainer::hand){
+                                                                column(Translator.get("poker.hand"), CalculationContainer::hand){
                                                                         prefWidthProperty().bind(Calculations.ownChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                                 columns.add(progressCol)
-                                                                column("Probability", CalculationContainer::probability){
+                                                                column(Translator.get("probability"), CalculationContainer::probability){
                                                                         prefWidthProperty().bind(Calculations.ownChancesTable!!.widthProperty().divide(3))
                                                                 }
                                                         }
@@ -250,11 +251,11 @@ class PokerHelper: View("Poker Helper by Ott") {
                                                 bottom{
                                                         vbox(40){
                                                                 vbox(2){
-                                                                        label("Derzeitiges Blatt")
+                                                                        label(Translator.get("poker.hand.current"))
                                                                         add(Calculations.labelCurrentHand)
                                                                 }
                                                                 vbox(2){
-                                                                        label("Maximales Blatt")
+                                                                        label(Translator.get("poker.hand.max"))
                                                                         add(Calculations.labelMaxHand)
                                                                 }
                                                         }

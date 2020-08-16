@@ -7,6 +7,7 @@ import de.ott.poker.calc.task.OwnChancesTask
 import de.ott.poker.data.PokerCard
 import de.ott.poker.data.container.CalculationContainer
 import de.ott.poker.data.enumerations.PokerHand
+import de.ott.poker.international.Translator
 import javafx.scene.control.Label
 import javafx.scene.control.TableView
 import javafx.scene.image.ImageView
@@ -23,8 +24,8 @@ object Calculations {
         }
     })
 
-    val labelCurrentHand by lazy { Label("N/A (unknown)") }
-    val labelMaxHand by lazy { Label("N/A (unknown)") }
+    val labelCurrentHand by lazy { Label(Translator.get("label.unknown")) }
+    val labelMaxHand by lazy { Label(Translator.get("label.unknown")) }
 
     val ownChancesContainers = observableListOf<CalculationContainer>()
     val enemyChancesContainers = observableListOf<CalculationContainer>()

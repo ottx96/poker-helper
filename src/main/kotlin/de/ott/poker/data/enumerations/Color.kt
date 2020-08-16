@@ -1,7 +1,7 @@
 package de.ott.poker.data.enumerations
 
-enum class Color(val id: Int, val desc: String) {
-    KARO(0, "D"), PIK(1, "S"), HERZ(2, "H"), KREUZ(3, "C");
+enum class Color(val id: Int, val desc: String, val imageId: String) {
+    CHECK(0, "♣", "C"), PIK(1, "♠", "S"), HEART(2, "❤", "H"), CROSS(3, "♦", "D");
 
     companion object {
         fun byId(id: Int): Color =

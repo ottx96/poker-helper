@@ -28,14 +28,14 @@ internal class OwnChancesTaskTest {
     fun `test own chances straight flush`() {
 
         val table = listOf(
-            PokerCard(Numbers.THREE, Color.HERZ),
-            PokerCard(Numbers.FOUR, Color.HERZ),
-            PokerCard(Numbers.SEVEN, Color.HERZ)
+            PokerCard(Numbers.THREE, Color.HEART),
+            PokerCard(Numbers.FOUR, Color.HEART),
+            PokerCard(Numbers.SEVEN, Color.HEART)
         )
 
         val hand = listOf(
-            PokerCard(Numbers.FIVE, Color.HERZ),
-            PokerCard(Numbers.SIX, Color.HERZ)
+            PokerCard(Numbers.FIVE, Color.HEART),
+            PokerCard(Numbers.SIX, Color.HEART)
         )
 
         val T = Executors.newFixedThreadPool(Calculations.ownChancesContainers.size)

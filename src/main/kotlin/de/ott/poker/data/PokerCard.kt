@@ -9,7 +9,7 @@ data class PokerCard(val number: Numbers, val color: Color, var information: Pok
     }
 
     fun getImageURL(): String{
-        return """de.ott.poker.cards/${number.desc}${color.desc}.png"""
+        return """de.ott.poker.cards/${number.desc}${color.imageId}.png"""
     }
 
     override fun equals(other: Any?): Boolean {

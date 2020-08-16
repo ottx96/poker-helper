@@ -28,7 +28,7 @@ class TestCalculationTask {
             listOf(
                 PokerCard(Numbers.FOUR, Color.PIK),
                 PokerCard(Numbers.FIVE, Color.PIK),
-                PokerCard(Numbers.FIVE, Color.KARO)
+                PokerCard(Numbers.FIVE, Color.CHECK)
             )
 
         val cards = hand.toMutableList().apply {
@@ -46,13 +46,13 @@ class TestCalculationTask {
     fun `test straight flush`(){
         val cards = listOf(
             PokerCard(Numbers.TWO, Color.PIK),
-            PokerCard(Numbers.THREE, Color.HERZ),
+            PokerCard(Numbers.THREE, Color.HEART),
 
-            PokerCard(Numbers.TEN, Color.KARO),
-            PokerCard(Numbers.BUBE, Color.KARO),
-            PokerCard(Numbers.DAME, Color.KARO),
-            PokerCard(Numbers.KOENIG, Color.KARO),
-            PokerCard(Numbers.ACE, Color.KARO)
+            PokerCard(Numbers.TEN, Color.CHECK),
+            PokerCard(Numbers.JACK, Color.CHECK),
+            PokerCard(Numbers.QUEEN, Color.CHECK),
+            PokerCard(Numbers.KING, Color.CHECK),
+            PokerCard(Numbers.ACE, Color.CHECK)
         )
 
         assert(PokerHand.STRAIGHT.applies(cards))
@@ -63,13 +63,13 @@ class TestCalculationTask {
     @Test
     fun `test straight and flush but not straight flush`(){
         val cards = listOf(
-            PokerCard(Numbers.TWO, Color.KARO),
+            PokerCard(Numbers.TWO, Color.CHECK),
             PokerCard(Numbers.TEN, Color.PIK),
-            PokerCard(Numbers.TEN, Color.HERZ),
-            PokerCard(Numbers.BUBE, Color.KARO),
-            PokerCard(Numbers.DAME, Color.KARO),
-            PokerCard(Numbers.KOENIG, Color.KARO),
-            PokerCard(Numbers.ACE, Color.KARO)
+            PokerCard(Numbers.TEN, Color.HEART),
+            PokerCard(Numbers.JACK, Color.CHECK),
+            PokerCard(Numbers.QUEEN, Color.CHECK),
+            PokerCard(Numbers.KING, Color.CHECK),
+            PokerCard(Numbers.ACE, Color.CHECK)
         )
 
         assert(PokerHand.STRAIGHT.applies(cards))
