@@ -14,9 +14,14 @@ import tornadofx.*
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.ThreadFactory
 
 object Calculations {
-    private val threads: ExecutorService = Executors.newCachedThreadPool()
+    private val threads: ExecutorService = Executors.newCachedThreadPool(object : ThreadFactory{
+        override fun newThread(r: Runnable): Thread = Thread(r).apply {
+            isDaemon = true
+        }
+    })
 
     val labelCurrentHand by lazy { Label("N/A (unknown)") }
     val labelMaxHand by lazy { Label("N/A (unknown)") }
